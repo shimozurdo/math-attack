@@ -1,5 +1,4 @@
-import { createAnimation } from "../utils/scene.js";
-import CONST from "../constant.js";
+import constant from "../constant.js";
 
 export default class Preload extends Phaser.Scene {
 
@@ -18,8 +17,9 @@ export default class Preload extends Phaser.Scene {
         // Images
         this.load.image("logo", "assets/images/logo.png");
         this.load.image("guide", "assets/images/640x960-guide.png");
-        // audio
-        this.load.audio("pleasant-creek-loop", ["assets/audio/pleasant-creek-loop.mp3", "assets/audio/pleasant-creek-loop.ogg"]);
+        this.load.image("button", "assets/images/button.png");
+        this.load.image("button-square", "assets/images/button-square.png");
+        this.load.image("counterclockwide-arrow", "assets/images/counterclockwide-arrow.png");
         //---------------------------------------------------------------------->
         this.width = this.sys.game.canvas.width;
         this.height = this.sys.game.canvas.height;
@@ -84,15 +84,10 @@ export default class Preload extends Phaser.Scene {
             this.time.addEvent({
                 delay: 2000,
                 callback: () => {
-                    // this.sound.play("pleasant-creek-loop", {
-                    //     volume: .5,
-                    //     loop: true,
-                    //     delay: 0
-                    // });
                     this.sceneStopped = true;
                     this.scene.stop("preload");
-                    this.handlerScene.cameras.main.setBackgroundColor("#f50057");
-                    this.handlerScene.launchScene("title")
+                    this.handlerScene.cameras.main.setBackgroundColor(constant.color.TITLE);
+                    this.handlerScene.launchScene("title");
                 },
                 loop: false
             });

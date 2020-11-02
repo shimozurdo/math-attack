@@ -1,5 +1,7 @@
 export default class Handler extends Phaser.Scene {
 
+    // Vars
+    sceneRunning = null;
     constructor() {
         super("handler");
     }
@@ -7,12 +9,12 @@ export default class Handler extends Phaser.Scene {
     create() {
         this.cameras.main.setBackgroundColor("#000");
         this.launchScene("preload");
-        this.launchScene("hud");
+        this.launchScene("hub");
     }
 
-    launchScene(_scene) {
-        this.scene.launch(_scene);
-        this.gameScene = this.scene.get(_scene);
+    launchScene(scene) {
+        this.scene.launch(scene);
+        this.gameScene = this.scene.get(scene);
     }
 
     updateCamera() {

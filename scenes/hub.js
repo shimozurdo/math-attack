@@ -1,31 +1,53 @@
 import { fullScreen } from "../utils/screen.js";
-export default class Hud extends Phaser.Scene {
+import { pointerUp } from "../utils/buttons.js";
+import constant from "../constant.js";
 
+export default class Hub extends Phaser.Scene {
+    // Vars
+    soundBtn = null;
+    music = null;
+    handlerScene = null;
     constructor() {
-        super("hud");
+        super("hub");
     }
 
     preload() {
-        // images
+        // Images
         this.load.image("quit", "assets/images/quit.png");
         this.load.spritesheet("fullscreen", "assets/images/fullscreen.png", { frameWidth: 48, frameHeight: 48 });
         this.load.spritesheet("sound", "assets/images/sound.png", { frameWidth: 48, frameHeight: 48 });
+        // Audio
+        this.load.audio("pleasant-creek-loop", ["assets/audio/pleasant-creek-loop.mp3", "assets/audio/pleasant-creek-loop.ogg"]);
         //---------------------------------------------------------------------->
         this.width = this.sys.game.canvas.width;
+        this.handlerScene = this.scene.get("handler");
         // Bindings
         fullScreen.call(this);
+        this.pointerUp = pointerUp.bind(this);
     }
 
     create() {
-        this.quitBtn = this.add.image(30, 30, "quit").setOrigin(.5).setDepth(1);
+        this.music = this.sound.add("pleasant-creek-loop", {
+            volume: .5,
+            loop: true,
+        });
+        this.music.play();
+        this.music.pause();
+        this.quitBtn = this.add.image(30, 30, "quit").setOrigin(.5).setDepth(1).setInteractive({ cursor: 'pointer' });
+        this.pointerUp(() => {
+            this.clickBackScene(this.handlerScene.sceneRunning);
+        }, this.quitBtn);
+
         this.soundBtn = this.add.image(30, 96, "sound").setOrigin(.5).setDepth(1).setInteractive({ cursor: 'pointer' });
-        this.soundBtn.isPlaying = 1;
+        this.soundBtn.isPlaying = -1;
         this.soundBtn.on('pointerup', () => {
             if (this.soundBtn.isPlaying > 0) {
                 this.soundBtn.setFrame(1);
+                this.music.pause();
             }
             else {
                 this.soundBtn.setFrame(0);
+                this.music.resume();
             }
             this.soundBtn.isPlaying *= -1;
         });
@@ -45,6 +67,23 @@ export default class Hud extends Phaser.Scene {
 
         this.scale.on("resize", this.resize, this);
 
+    }
+
+    clickBackScene(sceneTxt) {
+        const scene = this.scene.get(sceneTxt);
+        let gotoScene;
+        let bgColorScene;
+        switch (sceneTxt) {
+            case 'title':
+            case 'menu':
+                gotoScene = 'title';
+                bgColorScene = constant.color.TITLE;
+                break;
+        }
+        scene.sceneStopped = true;
+        scene.scene.stop(sceneTxt);
+        this.handlerScene.cameras.main.setBackgroundColor(bgColorScene);
+        this.handlerScene.launchScene(gotoScene);
     }
 
     resize() {

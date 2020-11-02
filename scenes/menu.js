@@ -1,8 +1,7 @@
-import { pointerOver, pointerUp } from "../utils/buttons.js";
 import constant from "../constant.js";
 import { stringToHex } from '../utils/colors.js'
 
-export default class Title extends Phaser.Scene {
+export default class Menu extends Phaser.Scene {
 
     // Vars
     width = null;
@@ -11,16 +10,14 @@ export default class Title extends Phaser.Scene {
     sceneStopped = false;
 
     constructor() {
-        super({ key: "title" })
+        super({ key: "menu" })
     }
 
     preload() {
         this.width = this.game.screenSize.width;
         this.height = this.game.screenSize.height;
         this.handlerScene = this.scene.get("handler");
-        this.handlerScene.sceneRunning = "title";
-        // Bindings
-        this.pointerUp = pointerUp.bind(this);
+        this.handlerScene.sceneRunning = "menu";
     }
 
     create() {
@@ -40,31 +37,12 @@ export default class Title extends Phaser.Scene {
         this.updateCamera();
         // HANDLER SCENE
 
-        // BACKGROUND AND HUB
-        this.gameTitleTxt = this.add.bitmapText(this.width / 2, this.height / 5, "atarismooth", "MATH ATTACK", 50).setOrigin(.5);
-        this.tweens.add({
-            targets: this.gameTitleTxt,
-            alpha: { from: .2, to: 1 },
-            props: {
-                y: { value: "+=10", duration: 2000, ease: "Sine.easeInOut" },
-            },
-            ease: "Linear",
-            duration: 2000,
-            repeat: -1,
-            yoyo: true
-        });
-        this.playBtn = this.add.image(this.width / 2, this.height / 2 + 30, "button").setOrigin(.5).setInteractive({ cursor: 'pointer' });
-        this.pointerUp(() => {
-            this.sceneStopped = true;
-            this.scene.stop("title");
-            this.handlerScene.cameras.main.setBackgroundColor(constant.color.MENU);
-            this.handlerScene.launchScene("menu");
-        }, this.playBtn);
-        this.playTxt = this.add.bitmapText(this.width / 2, this.height / 2 + 30, "atarismooth", "PLAY", 40).setOrigin(.5);
-        this.playTxt.setTint(stringToHex(constant.color.TITLE));
-        pointerOver(this.playBtn);
-        this.add.bitmapText(this.width / 2, this.height - 30, "atarismooth", "By Shimozurdo Games", 25).setOrigin(.5);
-        // BACKGROUND AND HUB
+        // BACKGROUND  
+        this.gameTitleTxt = this.add.bitmapText(this.width / 2, this.height / 5, "atarismooth", "Choose a math\nchallenge", 30, 1).setOrigin(.5);
+        this.countDownGameBtn = this.add.image(this.width / 2, this.height / 2, "button-square").setOrigin(.5).setInteractive({ cursor: 'pointer' });
+        this.countDownGame = this.add.image(this.width / 2, this.height / 2, "counterclockwide-arrow").setOrigin(.5);
+        this.countDownGame.setTint(stringToHex(constant.color.MENU));
+        // BACKGROUND 
     }
 
     resize(gameSize) {

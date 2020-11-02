@@ -1,11 +1,8 @@
-const CONST = {
-    ANIM: {
-        
-    },
-    PAUSE: {
-        FALSE: 0,
-        BY_TUTORIAL: 1
+const constant = {
+    color: {
+        TITLE: "#f50057",
+        MENU: "#aa00ff"
     }
 }
 
-export default CONST;
+export default constant;

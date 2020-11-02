@@ -2,10 +2,11 @@
  * Registers pointerover event from a game object
  * @param {GameObject} [gameObjet]
  */
-function pointerOver(gameObjet) {
+function pointerOver(gameObjet, hex = 0xEFF0F1) {
     gameObjet.on('pointerover', function () {
-        this.setTint(0xff0000);
+        this.setTint(hex);
     });
+    pointerOut(gameObjet);
 }
 
 /**
@@ -19,15 +20,13 @@ function pointerOut(gameObjet) {
 }
 
 /**
- * Registers pointerup event from a game object and calls to the anonymous function sen
+ * Registers pointerup event from a game object and calls to the anonymous function sent it
  *
- * @param {Anonymous function} [res=() => { }]
+ * @param {*} [res=() => { }]
+ * @param {*} gameObjet
  */
-function pointerBack(res = () => { }) {
-    const backBtn = this.add.image(50, 50, 'back').setInteractive({ cursor: 'pointer' });
-    pointerOver(backBtn);
-    pointerOut(backBtn);
-    backBtn.on('pointerup', () => {
+function pointerUp(res = () => { }, gameObjet) {
+    gameObjet.on('pointerup', () => {
         res();
     });
 }
@@ -35,5 +34,5 @@ function pointerBack(res = () => { }) {
 export {
     pointerOver,
     pointerOut,
-    pointerBack
+    pointerUp
 }
