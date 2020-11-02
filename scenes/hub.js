@@ -32,16 +32,21 @@ export default class Hub extends Phaser.Scene {
             loop: true,
         });
         this.music.play();
-        this.music.pause();
+
+
         this.quitBtn = this.add.image(30, 30, "quit").setOrigin(.5).setDepth(1).setInteractive({ cursor: 'pointer' });
+
         this.pointerUp(() => {
             this.clickBackScene(this.handlerScene.sceneRunning);
         }, this.quitBtn);
 
         this.soundBtn = this.add.image(30, 96, "sound").setOrigin(.5).setDepth(1).setInteractive({ cursor: 'pointer' });
-        this.soundBtn.isPlaying = -1;
+
+        this.music.pause();
+        this.soundBtn.setFrame(1);
+
         this.soundBtn.on('pointerup', () => {
-            if (this.soundBtn.isPlaying > 0) {
+            if (this.music.isPlaying) {
                 this.soundBtn.setFrame(1);
                 this.music.pause();
             }
@@ -49,7 +54,6 @@ export default class Hub extends Phaser.Scene {
                 this.soundBtn.setFrame(0);
                 this.music.resume();
             }
-            this.soundBtn.isPlaying *= -1;
         });
 
         this.fullscreenBtn = this.add.image(this.width - 30, 30, 'fullscreen', 0).setOrigin(.5).setDepth(1).setInteractive({ cursor: 'pointer' });
@@ -75,6 +79,7 @@ export default class Hub extends Phaser.Scene {
         let bgColorScene;
         switch (sceneTxt) {
             case 'title':
+                return;
             case 'menu':
                 gotoScene = 'title';
                 bgColorScene = constant.color.TITLE;

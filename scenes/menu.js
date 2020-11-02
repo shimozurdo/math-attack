@@ -14,6 +14,7 @@ export default class Menu extends Phaser.Scene {
     }
 
     preload() {
+        this.sceneStopped = false;
         this.width = this.game.screenSize.width;
         this.height = this.game.screenSize.height;
         this.handlerScene = this.scene.get("handler");
