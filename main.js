@@ -1,8 +1,9 @@
 import Handler from "./scenes/handler.js"
 import Title from "./scenes/title.js"
 import Preload from "./scenes/preload.js"
-import Hub from "./scenes/hub.js";
-import Menu from "./scenes/menu.js";
+import Hub from "./scenes/hub.js"
+import Menu from "./scenes/menu.js"
+import Game from "./scenes/game.js"
 
 const maxSizeWidthScreen = 1920;
 const maxSizeHeightScreen = 1080;
@@ -30,7 +31,7 @@ const config = {
     dom: {
         createContainer: true
     },
-    scene: [Handler, Preload, Title, Hub, Menu],
+    scene: [Handler, Preload, Title, Hub, Menu, Game],
     physics: {
         default: 'arcade',
         arcade: { debug: true }

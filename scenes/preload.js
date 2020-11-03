@@ -1,4 +1,4 @@
-import constant from "../constant.js";
+import constant from "../constant.js"
 
 export default class Preload extends Phaser.Scene {
 

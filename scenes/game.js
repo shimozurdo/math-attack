@@ -1,17 +1,23 @@
-import { pointerOver, pointerUp } from "../utils/buttons.js"
 import constant from "../constant.js"
 import { stringToHex } from "../utils/colors.js"
+import { pointerUp, pointerOver } from "../utils/buttons.js"
 
-export default class Title extends Phaser.Scene {
+export default class Game extends Phaser.Scene {
 
     // Vars
     width = null;
     height = null;
     handlerScene = false;
     sceneStopped = false;
+    dificulty = null;
 
     constructor() {
-        super({ key: "title" })
+        super({ key: "game" })
+    }
+
+    init(data) {
+        this.dificulty = data.dificulty;
+        console.log(this.dificulty);
     }
 
     preload() {
@@ -19,7 +25,7 @@ export default class Title extends Phaser.Scene {
         this.width = this.game.screenSize.width;
         this.height = this.game.screenSize.height;
         this.handlerScene = this.scene.get("handler");
-        this.handlerScene.sceneRunning = "title";
+        this.handlerScene.sceneRunning = "game";
         // Bindings
         this.pointerUp = pointerUp.bind(this);
     }
@@ -41,31 +47,16 @@ export default class Title extends Phaser.Scene {
         this.updateCamera();
         // HANDLER SCENE
 
-        // BACKGROUND AND HUB
-        this.gameTitleTxt = this.add.bitmapText(this.width / 2, this.height / 5, "atarismooth", "MATH ATTACK", 50).setOrigin(.5);
-        this.tweens.add({
-            targets: this.gameTitleTxt,
-            alpha: { from: .2, to: 1 },
-            props: {
-                y: { value: "+=10", duration: 2000, ease: "Sine.easeInOut" },
-            },
-            ease: "Linear",
-            duration: 2000,
-            repeat: -1,
-            yoyo: true
-        });
-        this.playBtn = this.add.image(this.width / 2, this.height / 2 + 30, "button").setOrigin(.5).setInteractive({ cursor: "pointer" });
-        this.pointerUp(() => {
-            this.sceneStopped = true;
-            this.scene.stop("title");
-            this.handlerScene.cameras.main.setBackgroundColor(constant.color.MENU);
-            this.handlerScene.launchScene("menu");
-        }, this.playBtn);
-        this.playTxt = this.add.bitmapText(this.width / 2, this.height / 2 + 30, "atarismooth", "PLAY", 40).setOrigin(.5);
-        this.playTxt.setTint(stringToHex(constant.color.TITLE));
-        pointerOver(this.playBtn);
-        this.add.bitmapText(this.width / 2, this.height - 30, "atarismooth", "By Shimozurdo Games", 25).setOrigin(.5);
-        // BACKGROUND AND HUB
+        // BACKGROUND  
+        this.n1Btn = this.add.image(this.width / 4, this.height - 300, "button-square").setOrigin(.5).setInteractive({ cursor: "pointer" });
+        this.n1Btn.setScale(.8);
+        this.n2Btn = this.add.image(this.width - (this.width / 4), this.height - 300, "button-square").setOrigin(.5).setInteractive({ cursor: "pointer" });
+        this.n2Btn.setScale(.8);
+        this.n3Btn = this.add.image(this.width / 4, this.height - 120, "button-square").setOrigin(.5).setInteractive({ cursor: "pointer" });
+        this.n3Btn.setScale(.8);
+        this.n4Btn = this.add.image(this.width - (this.width / 4), this.height - 120, "button-square").setOrigin(.5).setInteractive({ cursor: "pointer" });
+        this.n4Btn.setScale(.8);
+        // BACKGROUND 
     }
 
     resize(gameSize) {

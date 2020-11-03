@@ -1,6 +1,6 @@
-import { fullScreen } from "../utils/screen.js";
-import { pointerUp } from "../utils/buttons.js";
-import constant from "../constant.js";
+import { fullScreen } from "../utils/screen.js"
+import { pointerUp } from "../utils/buttons.js"
+import constant from "../constant.js"
 
 export default class Hub extends Phaser.Scene {
     // Vars
@@ -21,6 +21,9 @@ export default class Hub extends Phaser.Scene {
         //---------------------------------------------------------------------->
         this.width = this.sys.game.canvas.width;
         this.handlerScene = this.scene.get("handler");
+        //Orientation
+        this.scale.lockOrientation(constant.ORIENTATION);
+
         // Bindings
         fullScreen.call(this);
         this.pointerUp = pointerUp.bind(this);
@@ -34,18 +37,18 @@ export default class Hub extends Phaser.Scene {
         this.music.play();
 
 
-        this.quitBtn = this.add.image(30, 30, "quit").setOrigin(.5).setDepth(1).setInteractive({ cursor: 'pointer' });
+        this.quitBtn = this.add.image(30, 30, "quit").setOrigin(.5).setDepth(1).setInteractive({ cursor: "pointer" });
 
         this.pointerUp(() => {
             this.clickBackScene(this.handlerScene.sceneRunning);
         }, this.quitBtn);
 
-        this.soundBtn = this.add.image(30, 96, "sound").setOrigin(.5).setDepth(1).setInteractive({ cursor: 'pointer' });
+        this.soundBtn = this.add.image(30, 96, "sound").setOrigin(.5).setDepth(1).setInteractive({ cursor: "pointer" });
 
         this.music.pause();
         this.soundBtn.setFrame(1);
 
-        this.soundBtn.on('pointerup', () => {
+        this.soundBtn.on("pointerup", () => {
             if (this.music.isPlaying) {
                 this.soundBtn.setFrame(1);
                 this.music.pause();
@@ -56,9 +59,9 @@ export default class Hub extends Phaser.Scene {
             }
         });
 
-        this.fullscreenBtn = this.add.image(this.width - 30, 30, 'fullscreen', 0).setOrigin(.5).setDepth(1).setInteractive({ cursor: 'pointer' });
+        this.fullscreenBtn = this.add.image(this.width - 30, 30, "fullscreen", 0).setOrigin(.5).setDepth(1).setInteractive({ cursor: "pointer" });
 
-        this.fullscreenBtn.on('pointerup', () => {
+        this.fullscreenBtn.on("pointerup", () => {
             if (this.scale.isFullscreen) {
                 this.fullscreenBtn.setFrame(0);
                 this.scale.stopFullscreen();
@@ -78,10 +81,10 @@ export default class Hub extends Phaser.Scene {
         let gotoScene;
         let bgColorScene;
         switch (sceneTxt) {
-            case 'title':
+            case "title":
                 return;
-            case 'menu':
-                gotoScene = 'title';
+            case "menu":
+                gotoScene = "title";
                 bgColorScene = constant.color.TITLE;
                 break;
         }
