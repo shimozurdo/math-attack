@@ -9,6 +9,8 @@ export default class Menu extends Phaser.Scene {
     height = null;
     handlerScene = false;
     sceneStopped = false;
+    dificultyBtnGrp = null;
+    dificultyTxtGrp = null;
 
     constructor() {
         super({ key: "menu" })
@@ -41,45 +43,46 @@ export default class Menu extends Phaser.Scene {
         this.updateCamera();
         // HANDLER SCENE
 
-        // BACKGROUND  
+        // GAME OBJECTS  
+        this.dificultyBtnGrp = this.add.group();
+        this.dificultyTxtGrp = this.add.group();
         this.gameTitleTxt = this.add.bitmapText(this.width / 2, this.height / 5, "atarismooth", "Choose a math\nchallenge", 30, 1).setOrigin(.5);
         this.countDownGameBtn = this.add.image(this.width / 2, this.height / 2, "button-square").setOrigin(.5).setInteractive({ cursor: "pointer" });
         this.countDownGame = this.add.image(this.width / 2, this.height / 2, "counterclockwide-arrow").setOrigin(.5);
         this.countDownGame.setTint(stringToHex(constant.color.MENU));
         pointerOver(this.countDownGameBtn);
         this.pointerUp(() => {
-            // it will improve
             this.countDownGameBtn.setVisible(false);
             this.gameTitleTxt.setText("Dificulty");
-            this.easyBtn = this.add.image(this.width / 2, this.height / 2 - 100, "button").setOrigin(.5).setInteractive({ cursor: "pointer" });
-            this.pointerUp(() => {
-                this.startGame(constant.dificulty.EASY);
-            }, this.easyBtn);
-            this.easyTxt = this.add.bitmapText(this.width / 2, this.height / 2 - 100, "atarismooth", "Easy", 40).setOrigin(.5);
-            this.easyTxt.setTint(stringToHex(constant.color.MENU));
-            pointerOver(this.easyBtn);
-            this.easyBtn.setScale(.8);
 
-            this.normalBtn = this.add.image(this.width / 2, this.height / 2 + 50, "button").setOrigin(.5).setInteractive({ cursor: "pointer" });
-            this.pointerUp(() => {
-                this.startGame(constant.dificulty.NORMAL);
-            }, this.normalBtn);
-            this.normalTxt = this.add.bitmapText(this.width / 2, this.height / 2 + 50, "atarismooth", "Normal", 40).setOrigin(.5);
-            this.normalTxt.setTint(stringToHex(constant.color.MENU));
-            pointerOver(this.normalBtn);
-            this.normalBtn.setScale(1, .8);
+            let posY = this.height / 2 - 100;
+            let configDificultyButtonList = [
+                { text: "Easy", dificulty: constant.dificulty.EASY },
+                { text: "Normal", dificulty: constant.dificulty.NORMAL },
+                { text: "Hard", dificulty: constant.dificulty.HARD }
+            ];
+            for (let i = 0; i < configDificultyButtonList.length; i++) {
 
-            this.hardBtn = this.add.image(this.width / 2, this.height / 2 + 200, "button").setOrigin(.5).setInteractive({ cursor: "pointer" });
-            this.pointerUp(() => {
-                this.startGame(constant.dificulty.HARD);
-            }, this.hardBtn);
-            this.hardTxt = this.add.bitmapText(this.width / 2, this.height / 2 + 200, "atarismooth", "Hard", 40).setOrigin(.5);
-            this.hardTxt.setTint(stringToHex(constant.color.MENU));
-            pointerOver(this.hardBtn);
-            this.hardBtn.setScale(.8);
+                let dificultyBtn = this.add.image(this.width / 2, posY, "button").setOrigin(.5).setInteractive({ cursor: "pointer" });
+                this.pointerUp(() => {
+                    this.startGame(configDificultyButtonList[i].dificulty);
+                }, dificultyBtn);
+                pointerOver(dificultyBtn);
+                if (i !== 1)
+                    dificultyBtn.setScale(.8);
+                else
+                    dificultyBtn.setScale(1, .8);
+                this.dificultyBtnGrp.add(dificultyBtn);
+
+                let dificultyTxt = this.add.bitmapText(this.width / 2, posY, "atarismooth", configDificultyButtonList[i].text, 40).setOrigin(.5);
+                dificultyTxt.setTint(stringToHex(constant.color.MENU));
+                this.dificultyTxtGrp.add(dificultyTxt);
+                posY += 150;
+
+            }
 
         }, this.countDownGameBtn);
-        // BACKGROUND 
+        // GAME OBJECTS 
     }
 
     startGame(dificulty) {

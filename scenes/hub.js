@@ -87,6 +87,10 @@ export default class Hub extends Phaser.Scene {
                 gotoScene = "title";
                 bgColorScene = constant.color.TITLE;
                 break;
+            case "game":
+                gotoScene = "menu";
+                bgColorScene = constant.color.MENU;
+                break;
         }
         scene.sceneStopped = true;
         scene.scene.stop(sceneTxt);

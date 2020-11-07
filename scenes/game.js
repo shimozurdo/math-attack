@@ -1,6 +1,7 @@
 import constant from "../constant.js"
 import { stringToHex } from "../utils/colors.js"
-import { pointerUp, pointerOver } from "../utils/buttons.js"
+import * as action from "../gameplay/gameplay.game1.js"
+import { pointerUp } from "../utils/buttons.js"
 
 export default class Game extends Phaser.Scene {
 
@@ -10,27 +11,38 @@ export default class Game extends Phaser.Scene {
     handlerScene = false;
     sceneStopped = false;
     dificulty = null;
+    resultBtnGroup = null;
+    resultTxtGroup = null;
+    messageGameTxt = null;
+    mathProblemTxt = null;
 
     constructor() {
-        super({ key: "game" })
+        super({ key: "game" });
     }
 
     init(data) {
         this.dificulty = data.dificulty;
-        console.log(this.dificulty);
     }
 
     preload() {
+        // Bindings
+        this.pointerUp = pointerUp.bind(this);
+        this.resetGamePlay = action.resetGamePlay.bind(this);
+        this.generateMathProblem = action.generateMathProblem.bind(this)
+
+        // Scene config
         this.sceneStopped = false;
         this.width = this.game.screenSize.width;
         this.height = this.game.screenSize.height;
         this.handlerScene = this.scene.get("handler");
         this.handlerScene.sceneRunning = "game";
-        // Bindings
-        this.pointerUp = pointerUp.bind(this);
+
+        // Game config
+        this.gamePlay = this.resetGamePlay();
     }
 
     create() {
+
         // HANDLER SCENE
         this.add.image(0, 0, "guide").setOrigin(0).setDepth(1);
         this.scale.on("resize", this.resize, this);
@@ -47,16 +59,77 @@ export default class Game extends Phaser.Scene {
         this.updateCamera();
         // HANDLER SCENE
 
-        // BACKGROUND  
-        this.n1Btn = this.add.image(this.width / 4, this.height - 300, "button-square").setOrigin(.5).setInteractive({ cursor: "pointer" });
-        this.n1Btn.setScale(.8);
-        this.n2Btn = this.add.image(this.width - (this.width / 4), this.height - 300, "button-square").setOrigin(.5).setInteractive({ cursor: "pointer" });
-        this.n2Btn.setScale(.8);
-        this.n3Btn = this.add.image(this.width / 4, this.height - 120, "button-square").setOrigin(.5).setInteractive({ cursor: "pointer" });
-        this.n3Btn.setScale(.8);
-        this.n4Btn = this.add.image(this.width - (this.width / 4), this.height - 120, "button-square").setOrigin(.5).setInteractive({ cursor: "pointer" });
-        this.n4Btn.setScale(.8);
-        // BACKGROUND 
+        // GAME OBJECTS  
+        this.resultTxtGroup = this.add.group();
+        this.resultBtnGroup = this.add.group();
+        this.messageGameTxt = this.add.bitmapText(this.width / 2, this.height / 2, "atarismooth", "GET READY!", 50).setOrigin(.5);
+        this.mathProblemTxt = this.add.bitmapText(this.width / 2, this.height / 4, "atarismooth", "", 50).setOrigin(.5);
+        let posX = this.width / 4;
+        let posXplus = 0;
+        let posY = this.height;
+        let posYplus = 300;
+
+        for (let i = 0; i < 4; i++) {
+            if (i === 1 || i === 3)
+                posXplus = this.width / 2;
+            else if (i === 2)
+                posXplus = 0;
+            if (i > 1)
+                posYplus = 120;
+
+            let resultBtn = this.add.image(posX + posXplus + (i % 2 ? -30 : 30), posY - posYplus, "button-square").setOrigin(.5).setInteractive({ cursor: "pointer" });
+            resultBtn.setScale(1, .8);
+            resultBtn.name = "resultBtn-" + (i + 1);
+            resultBtn.visible = false;
+            this.resultBtnGroup.add(resultBtn);
+
+            let resultTxt = this.add.bitmapText(posX + posXplus + (i % 2 ? -30 : 30), posY - posYplus, "atarismooth", i, 40).setOrigin(.5);
+            resultTxt.name = "resultTxt-" + (i + 1);
+            resultTxt.setTint(stringToHex(constant.color.GAME));
+            resultTxt.visible = false;
+            this.resultTxtGroup.add(resultTxt);
+        }
+
+        this.input.on('gameobjectdown', (pointer, child) => {
+            console.log(child.name);
+        });
+        // GAME OBJECTS
+
+        // START GAME
+        this.time.addEvent({
+            delay: this.gamePlay.delayGeneral,
+            callback: () => {
+                this.gamePlay.gameStart = true;
+                this.gamePlay.state = constant.state.STARTING;
+            },
+            loop: false
+        });
+        // START GAME
+    }
+
+    update(time, delta) {
+        if (!this.gamePlay.gameOver && this.gamePlay.gameStart) {
+            if (this.gamePlay.state == constant.state.STARTING && this.gamePlay.initialCountdown >= 1000) {
+                this.gamePlay.initialCountdown -= delta;
+                this.messageGameTxt.setText(parseInt((this.gamePlay.initialCountdown / 1000)));
+                return;
+            }
+            else if (this.gamePlay.state == constant.state.STARTING && this.gamePlay.initialCountdown < 1000) {
+                this.messageGameTxt.setText("");
+                this.gamePlay.state = constant.state.RUNNING;
+                this.resultBtnGroup.children.each(function (child) {
+                    child.visible = true;
+                });
+                this.resultTxtGroup.children.each(function (child) {
+                    child.visible = true;
+                });
+            }
+            // loop game
+            if (this.gamePlay.state == constant.state.RUNNING && !this.gamePlay.mathProblemExist) {
+                this.generateMathProblem();
+            }
+
+        }
     }
 
     resize(gameSize) {

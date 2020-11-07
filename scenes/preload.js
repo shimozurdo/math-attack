@@ -96,15 +96,20 @@ export default class Preload extends Phaser.Scene {
 
     create() {
         this.add.image(this.game.screenSize.width / 2, this.game.screenSize.height / 2, "logo").setOrigin(.5);
+        // HANDLER SCENE
         this.add.image(0, 0, "guide").setOrigin(0).setDepth(1);
         this.scale.on("resize", this.resize, this);
+
         const width = this.scale.gameSize.width;
         const height = this.scale.gameSize.height;
+
         this.parent = new Phaser.Structs.Size(width, height);
         this.sizer = new Phaser.Structs.Size(this.game.screenSize.width, this.game.screenSize.height, Phaser.Structs.Size.FIT, this.parent);
+
         this.parent.setSize(width, height);
         this.sizer.setSize(width, height);
         this.updateCamera();
+        // HANDLER SCENE
     }
 
     resize(gameSize) {
