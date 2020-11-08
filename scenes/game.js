@@ -2,6 +2,7 @@ import constant from "../constant.js"
 import { stringToHex } from "../utils/colors.js"
 import * as action from "../gameplay/gameplay.game1.js"
 import { pointerUp } from "../utils/buttons.js"
+import { pointerOver } from "../utils/buttons.js"
 
 export default class Game extends Phaser.Scene {
 
@@ -39,6 +40,7 @@ export default class Game extends Phaser.Scene {
 
         // Game config
         this.gamePlay = this.resetGamePlay();
+        this.gamePlay.dificulty = this.dificulty;
     }
 
     create() {
@@ -81,9 +83,10 @@ export default class Game extends Phaser.Scene {
             resultBtn.setScale(1, .8);
             resultBtn.name = "resultBtn-" + (i + 1);
             resultBtn.visible = false;
+            pointerOver(resultBtn);
             this.resultBtnGroup.add(resultBtn);
 
-            let resultTxt = this.add.bitmapText(posX + posXplus + (i % 2 ? -30 : 30), posY - posYplus, "atarismooth", i, 40).setOrigin(.5);
+            let resultTxt = this.add.bitmapText(posX + posXplus + (i % 2 ? -30 : 30), posY - posYplus, "atarismooth", "", 40).setOrigin(.5);
             resultTxt.name = "resultTxt-" + (i + 1);
             resultTxt.setTint(stringToHex(constant.color.GAME));
             resultTxt.visible = false;
@@ -91,7 +94,9 @@ export default class Game extends Phaser.Scene {
         }
 
         this.input.on('gameobjectdown', (pointer, child) => {
-            console.log(child.name);
+            const resultTxt = this.resultTxtGroup.getChildren().find(v => v.name === "resultTxt-" + child.name.split("-")[1]);
+            if (action.chooseSolution.call(this, resultTxt.text))
+                this.gamePlay.mathProblemExist = false;
         });
         // GAME OBJECTS
 
@@ -100,7 +105,7 @@ export default class Game extends Phaser.Scene {
             delay: this.gamePlay.delayGeneral,
             callback: () => {
                 this.gamePlay.gameStart = true;
-                this.gamePlay.state = constant.state.STARTING;
+                this.gamePlay.statusGame = constant.statusGame.STARTING;
             },
             loop: false
         });
@@ -109,14 +114,14 @@ export default class Game extends Phaser.Scene {
 
     update(time, delta) {
         if (!this.gamePlay.gameOver && this.gamePlay.gameStart) {
-            if (this.gamePlay.state == constant.state.STARTING && this.gamePlay.initialCountdown >= 1000) {
+            if (this.gamePlay.statusGame == constant.statusGame.STARTING && this.gamePlay.initialCountdown >= 1000) {
                 this.gamePlay.initialCountdown -= delta;
                 this.messageGameTxt.setText(parseInt((this.gamePlay.initialCountdown / 1000)));
                 return;
             }
-            else if (this.gamePlay.state == constant.state.STARTING && this.gamePlay.initialCountdown < 1000) {
+            else if (this.gamePlay.statusGame == constant.statusGame.STARTING && this.gamePlay.initialCountdown < 1000) {
                 this.messageGameTxt.setText("");
-                this.gamePlay.state = constant.state.RUNNING;
+                this.gamePlay.statusGame = constant.statusGame.RUNNING;
                 this.resultBtnGroup.children.each(function (child) {
                     child.visible = true;
                 });
@@ -125,7 +130,7 @@ export default class Game extends Phaser.Scene {
                 });
             }
             // loop game
-            if (this.gamePlay.state == constant.state.RUNNING && !this.gamePlay.mathProblemExist) {
+            if (this.gamePlay.statusGame == constant.statusGame.RUNNING && !this.gamePlay.mathProblemExist) {
                 this.generateMathProblem();
             }
 

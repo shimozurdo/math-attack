@@ -10,7 +10,7 @@ const constant = {
         NORMAL: 1,
         HARD: 2
     },
-    state: {
+    statusGame: {
         STOP: 0,
         STARTING: 1,
         RUNNING: 2,
