@@ -1,44 +1,21 @@
 import constant from "../constant.js"
 
-// UPDATE GAME PLAY
-function generateMathProblem() {
-
-    let valuesProblem = getValuesProblem(this.gamePlay.dificulty);
-
-    let results = getResults(valuesProblem, this.gamePlay.dificulty);
-    this.mathProblemTxt.setText(valuesProblem.value1 + valuesProblem.operator.symbol + valuesProblem.value2 + "= ?");
-
-    const solutionRandomBtnIndex = Phaser.Math.Between(1, 4);
-    let index = 0;
-    this.resultTxtGroup.children.each(function (child) {
-        if (solutionRandomBtnIndex === parseInt(child.name.split("-")[1])) {
-            child.setText(results.solution);
-            console.log(results.solution, "s")
-        } else {
-            child.setText(results.otherResultList[index]);
-            console.log(results.otherResultList[index])
-            index++;
-        }
-        console.log(index, "-")
-    });
-
-    this.gamePlay.mathProblemExist = true;
-    this.gamePlay.data = results;
-}
-
-function chooseSolution(solution) {
-    if (this.gamePlay.data.solution === parseInt(solution))
-        return true;
-    else
-        return false;
-}
-
 function getValuesProblem(dificulty) {
     if (dificulty === constant.dificulty.EASY) {
         let value1 = Phaser.Math.Between(1, 10);
         let value2 = Phaser.Math.Between(1, 10);
+        let allowValuesRepeted = false;
+        let allowValuesRepetedRan;
+        if (value1 === value1) {
+            allowValuesRepetedRan = Phaser.Math.Between(1, 2);
+            allowValuesRepeted = allowValuesRepetedRan === 1 ? true : false;
+        }
+        if (!allowValuesRepeted)
+            do {
+                value2 = Phaser.Math.Between(1, 10);
+            } while (value1 === value2);
         let operator = getOperatorNumber(dificulty);
-        if (operator.id === 2) {
+        if (operator.symbol === "-") {
             do {
                 value2 = Phaser.Math.Between(1, value1);
             } while (value2 > value1);
@@ -90,7 +67,6 @@ function getResults(values, dificulty) {
             let otherResult;
             do {
                 if (resultCloseToSolutionIndex === i) {
-
                     let resultCloseToSolutionFirstIndex = results.solution - Phaser.Math.Between(1, 5);
                     let resultCloseToSolutionLastIndex = results.solution + Phaser.Math.Between(1, 5);
                     otherResult = Phaser.Math.Between(resultCloseToSolutionFirstIndex, resultCloseToSolutionLastIndex);
@@ -101,14 +77,12 @@ function getResults(values, dificulty) {
                             otherResult = 0;
                         otherResultList[i] = otherResult;
                     }
-
                 } else {
-
                     if (values.operator.symbol === "+") {
                         let sumValues = values.value1 + values.value2;
                         otherResult = Phaser.Math.Between(0, sumValues * 2);
                     } else if (values.operator.symbol === "-")
-                        otherResult = Phaser.Math.Between(0, values.value1 + values.value2);
+                        otherResult = Phaser.Math.Between(0, (values.value1 + values.value2) * 2);
 
                     otherResultExist = otherResultList.includes(otherResult);
 
@@ -118,31 +92,13 @@ function getResults(values, dificulty) {
             } while (otherResultList[i] === results.solution || otherResultExist);
         }
         results.otherResultList = otherResultList;
-        // console.log(results.otherResultList);
     }
     return results;
 }
-// UPDATE GAME PLAY
 
-// CONFIG
-function resetGamePlay() {
-    return {
-        delayGeneral: 1000,
-        level: 1,
-        score: 0,
-        gameOver: false,
-        gameStart: false,
-        pause: 0,
-        initialCountdown: 1000,
-        mathProblemExist: false,
-        statusGame: constant.statusGame.STOP,
-        dificulty: 0,
-        data: null
-    }
-}
-// CONFIG
 export {
-    resetGamePlay,
-    generateMathProblem,
-    chooseSolution
+    getValuesProblem,
+    getOperatorNumber,
+    getOperatorStr,
+    getResults
 }

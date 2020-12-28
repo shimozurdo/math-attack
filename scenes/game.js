@@ -1,6 +1,7 @@
 import constant from "../constant.js"
 import { stringToHex } from "../utils/colors.js"
-import * as action from "../gameplay/gameplay.game1.js"
+import * as action from "../gameplay/countdown.math.js"
+import * as setting from "../gameplay/game.settings.js"
 import { pointerUp } from "../utils/buttons.js"
 import { pointerOver } from "../utils/buttons.js"
 
@@ -28,7 +29,6 @@ export default class Game extends Phaser.Scene {
     preload() {
         // Bindings
         this.pointerUp = pointerUp.bind(this);
-        this.resetGamePlay = action.resetGamePlay.bind(this);
         this.generateMathProblem = action.generateMathProblem.bind(this)
 
         // Scene config
@@ -39,7 +39,7 @@ export default class Game extends Phaser.Scene {
         this.handlerScene.sceneRunning = "game";
 
         // Game config
-        this.gamePlay = this.resetGamePlay();
+        this.gamePlay = setting.resetGamePlay();
         this.gamePlay.dificulty = this.dificulty;
     }
 
@@ -105,7 +105,7 @@ export default class Game extends Phaser.Scene {
             delay: this.gamePlay.delayGeneral,
             callback: () => {
                 this.gamePlay.gameStart = true;
-                this.gamePlay.statusGame = constant.statusGame.STARTING;
+                this.gamePlay.status = constant.statusGame.STARTING;
             },
             loop: false
         });
@@ -114,14 +114,14 @@ export default class Game extends Phaser.Scene {
 
     update(time, delta) {
         if (!this.gamePlay.gameOver && this.gamePlay.gameStart) {
-            if (this.gamePlay.statusGame == constant.statusGame.STARTING && this.gamePlay.initialCountdown >= 1000) {
+            if (this.gamePlay.status == constant.statusGame.STARTING && this.gamePlay.initialCountdown >= 1000) {
                 this.gamePlay.initialCountdown -= delta;
                 this.messageGameTxt.setText(parseInt((this.gamePlay.initialCountdown / 1000)));
                 return;
             }
-            else if (this.gamePlay.statusGame == constant.statusGame.STARTING && this.gamePlay.initialCountdown < 1000) {
+            else if (this.gamePlay.status == constant.statusGame.STARTING && this.gamePlay.initialCountdown < 1000) {
                 this.messageGameTxt.setText("");
-                this.gamePlay.statusGame = constant.statusGame.RUNNING;
+                this.gamePlay.status = constant.statusGame.RUNNING;
                 this.resultBtnGroup.children.each(function (child) {
                     child.visible = true;
                 });
@@ -130,7 +130,7 @@ export default class Game extends Phaser.Scene {
                 });
             }
             // loop game
-            if (this.gamePlay.statusGame == constant.statusGame.RUNNING && !this.gamePlay.mathProblemExist) {
+            if (this.gamePlay.status == constant.statusGame.RUNNING && !this.gamePlay.mathProblemExist) {
                 this.generateMathProblem();
             }
 

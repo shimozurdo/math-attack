@@ -43,10 +43,11 @@ export default class Hub extends Phaser.Scene {
             this.clickBackScene(this.handlerScene.sceneRunning);
         }, this.quitBtn);
 
-        this.soundBtn = this.add.image(30, 96, "sound").setOrigin(.5).setDepth(1).setInteractive({ cursor: "pointer" });
+        this.soundBtn = this.add.image(this.width - 30, 96, "sound").setOrigin(.5).setDepth(1).setInteractive({ cursor: "pointer" });
 
-        this.music.pause();
-        this.soundBtn.setFrame(1);
+        // test
+        // this.music.pause();
+        // this.soundBtn.setFrame(1);
 
         this.soundBtn.on("pointerup", () => {
             if (this.music.isPlaying) {
@@ -100,6 +101,7 @@ export default class Hub extends Phaser.Scene {
 
     resize() {
         this.fullscreenBtn.x = this.scale.gameSize.width - 30;
+        this.soundBtn.x = this.scale.gameSize.width - 30;
     }
 
     getZoom() {
