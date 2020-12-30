@@ -26,7 +26,8 @@ export default class Title extends Phaser.Scene {
 
     create() {
         // HANDLER SCENE
-        this.add.image(0, 0, "guide").setOrigin(0).setDepth(1);
+        if (this.game.debugMode)
+            this.add.image(0, 0, "guide").setOrigin(0).setDepth(1);
         this.scale.on("resize", this.resize, this);
 
         const width = this.scale.gameSize.width;

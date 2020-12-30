@@ -31,14 +31,13 @@ const config = {
     dom: {
         createContainer: true
     },
-    scene: [Handler, Preload, Title, Hub, Menu, Game],
-    physics: {
-        default: 'arcade',
-        arcade: { debug: true }
-    },
+    scene: [Handler, Preload, Title, Hub, Menu, Game]
 };
 
 const game = new Phaser.Game(config);
+
+game.debugMode = true;
+game.embedded = true; // game is embedded into a html iframe/object
 
 game.screenSize = {
     maxWidth: maxSizeWidthScreen,

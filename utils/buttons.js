@@ -1,5 +1,6 @@
 /**
  * Registers pointerover event from a game object
+ * 
  * @param {GameObject} [gameObjet]
  */
 function pointerOver(gameObjet, hex = 0xEFF0F1) {
@@ -11,6 +12,7 @@ function pointerOver(gameObjet, hex = 0xEFF0F1) {
 
 /**
  * Registers pointerout event from a game object
+ * 
  * @param {GameObject} [gameObjet]
  */
 function pointerOut(gameObjet) {

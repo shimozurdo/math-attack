@@ -19,7 +19,8 @@ export default class Preload extends Phaser.Scene {
         this.load.image("guide", "assets/images/640x960-guide.png");
         this.load.image("button", "assets/images/button.png");
         this.load.image("button-square", "assets/images/button-square.png");
-        this.load.image("counterclockwide-arrow", "assets/images/counterclockwide-arrow.png");
+        this.load.image("counterclockwide-arrow", "assets/images/counterclockwide-arrow.png");        
+        this.load.image("numbers", "assets/images/numbers.png");
         //---------------------------------------------------------------------->
         this.width = this.sys.game.canvas.width;
         this.height = this.sys.game.canvas.height;
@@ -97,7 +98,8 @@ export default class Preload extends Phaser.Scene {
     create() {
         this.add.image(this.game.screenSize.width / 2, this.game.screenSize.height / 2, "logo").setOrigin(.5);
         // HANDLER SCENE
-        this.add.image(0, 0, "guide").setOrigin(0).setDepth(1);
+        if (this.game.debugMode)
+            this.add.image(0, 0, "guide").setOrigin(0).setDepth(1);
         this.scale.on("resize", this.resize, this);
 
         const width = this.scale.gameSize.width;

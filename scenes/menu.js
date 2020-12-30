@@ -28,7 +28,8 @@ export default class Menu extends Phaser.Scene {
 
     create() {
         // HANDLER SCENE
-        this.add.image(0, 0, "guide").setOrigin(0).setDepth(1);
+        if (this.game.debugMode)
+            this.add.image(0, 0, "guide").setOrigin(0).setDepth(1);
         this.scale.on("resize", this.resize, this);
 
         const width = this.scale.gameSize.width;
@@ -48,7 +49,7 @@ export default class Menu extends Phaser.Scene {
         this.dificultyTxtGrp = this.add.group();
         this.gameTitleTxt = this.add.bitmapText(this.width / 2, this.height / 5, "atarismooth", "Choose a math\nchallenge", 30, 1).setOrigin(.5);
         this.countDownGameBtn = this.add.image(this.width / 2, this.height / 2, "button-square").setOrigin(.5).setInteractive({ cursor: "pointer" });
-        this.countDownGame = this.add.image(this.width / 2, this.height / 2, "counterclockwide-arrow").setOrigin(.5);
+        this.countDownGame = this.add.image(this.width / 2, this.height / 2, "numbers").setOrigin(.5);
         this.countDownGame.setTint(stringToHex(constant.color.MENU));
         pointerOver(this.countDownGameBtn);
         this.pointerUp(() => {
@@ -65,7 +66,8 @@ export default class Menu extends Phaser.Scene {
 
                 let dificultyBtn = this.add.image(this.width / 2, posY, "button").setOrigin(.5).setInteractive({ cursor: "pointer" });
                 this.pointerUp(() => {
-                    this.startGame(configDificultyButtonList[i].dificulty);
+                    // this.startGame(configDificultyButtonList[i].dificulty);
+                    this.startGame(0);
                 }, dificultyBtn);
                 pointerOver(dificultyBtn);
                 if (i !== 1)
