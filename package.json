@@ -4,6 +4,7 @@
   "description": "Math game",
   "main": "index.js",
   "scripts": {
+    "start": "live-server --open=index.html",
     "build": "webpack --mode production"
   },
   "repository": {
@@ -17,6 +18,7 @@
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.12.10",
     "babel-loader": "^8.2.2",
+    "live-server": "^1.2.1",
     "webpack": "^5.11.1",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0"

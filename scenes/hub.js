@@ -24,15 +24,16 @@ export default class Hub extends Phaser.Scene {
         //Orientation
         this.scale.lockOrientation(constant.ORIENTATION);
 
-        // Bindings
-        fullScreen.call(this);
+        // Bindings        
         this.pointerUp = pointerUp.bind(this);
+        if (!this.game.embedded)
+            fullScreen.call(this);
     }
 
     create() {
 
         this.music = this.sound.add("pleasant-creek-loop", {
-            volume: .5,
+            volume: .3,
             loop: true,
         });
 
@@ -108,7 +109,8 @@ export default class Hub extends Phaser.Scene {
     }
 
     resize() {
-        this.fullscreenBtn.x = this.scale.gameSize.width - 30;
+        if (!this.game.embedded)
+            this.fullscreenBtn.x = this.scale.gameSize.width - 30;
         this.soundBtn.x = this.scale.gameSize.width - 30;
     }
 
