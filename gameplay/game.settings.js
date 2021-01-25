@@ -1,4 +1,4 @@
-import constant from "../constant.js"
+import constant from '../constant.js'
 
 function resetGamePlay() {
     return {
@@ -12,7 +12,8 @@ function resetGamePlay() {
         mathProblemExist: false,
         status: constant.statusGame.STOP,
         dificulty: 0,
-        data: null
+        data: null,
+        gameCountdownBase: 10000
     }
 }
 

@@ -65,7 +65,6 @@ export default class Title extends Phaser.Scene {
         this.playTxt = this.add.bitmapText(this.width / 2, this.height / 2 + 30, "atarismooth", "PLAY", 40).setOrigin(.5);
         this.playTxt.setTint(stringToHex(constant.color.TITLE));
         pointerOver(this.playBtn);
-        this.add.bitmapText(this.width / 2, this.height - 30, "atarismooth", "By Shimozurdo Games", 25).setOrigin(.5);
         // BACKGROUND AND HUB
     }
 
@@ -82,9 +81,9 @@ export default class Title extends Phaser.Scene {
     }
 
     updateCamera() {
-        const camera = this.cameras.main;
+        const camera = this.cameras.main
 
-        const x = Math.ceil((this.parent.width - this.sizer.width) * 0.5);
+        const x = Math.ceil((this.parent.width - this.sizer.width) * 0.5)
         const y = Math.ceil((this.parent.height - this.sizer.height) * 0.5);
         const scaleX = this.sizer.width / this.game.screenSize.width;
         const scaleY = this.sizer.height / this.game.screenSize.height;

@@ -20,6 +20,7 @@ export default class Hub extends Phaser.Scene {
         this.load.audio("pleasant-creek-loop", ["assets/audio/pleasant-creek-loop.mp3", "assets/audio/pleasant-creek-loop.ogg"]);
         //---------------------------------------------------------------------->
         this.width = this.sys.game.canvas.width;
+        this.height = this.sys.game.canvas.height;
         this.handlerScene = this.scene.get("handler");
         //Orientation
         this.scale.lockOrientation(constant.ORIENTATION);
@@ -82,12 +83,19 @@ export default class Hub extends Phaser.Scene {
             });
         }
 
+        this.creditsTxt = this.add.text(this.width / 2, this.height - 30, 'Shimozurdo Games', { fontFamily: 'Arial', fontSize: '20px' }).setOrigin(.5).setDepth(1);
+        this.creditsTxt.visible = false;
         this.scale.on("resize", this.resize, this);
-
+    }
+    update() {
+        if (this.handlerScene.sceneRunning === 'title')
+            this.creditsTxt.visible = true
+        else
+            this.creditsTxt.visible = false
     }
 
     clickBackScene(sceneTxt) {
-        const scene = this.scene.get(sceneTxt);
+        const scene = this.scene.get(sceneTxt)
         let gotoScene;
         let bgColorScene;
         switch (sceneTxt) {
@@ -112,6 +120,8 @@ export default class Hub extends Phaser.Scene {
         if (!this.game.embedded)
             this.fullscreenBtn.x = this.scale.gameSize.width - 30;
         this.soundBtn.x = this.scale.gameSize.width - 30;
+        this.creditsTxt.x = this.scale.gameSize.width / 2;
+        this.creditsTxt.y = this.scale.gameSize.height - 30;
     }
 
     getZoom() {
