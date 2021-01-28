@@ -8,10 +8,13 @@ function resetGamePlay() {
         gameOver: false,
         gameStart: false,
         pause: 0,
+        pauseByMessage: 0,
+        stepTutorial: -1,
         initialCountdown: 1000,
         mathProblemExist: false,
         status: constant.statusGame.STOP,
         dificulty: 0,
+        dificultyLevel: 0,
         data: null,
         gameCountdownBase: 10000
     }

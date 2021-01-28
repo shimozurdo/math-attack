@@ -4,6 +4,7 @@ import * as action from '../gameplay/countdown.math.js'
 import * as setting from '../gameplay/game.settings.js'
 import { pointerUp } from '../utils/buttons.js'
 import { pointerOver } from '../utils/buttons.js'
+import { ruleOfThree } from '../utils/common.js'
 
 export default class Game extends Phaser.Scene {
 
@@ -30,6 +31,7 @@ export default class Game extends Phaser.Scene {
         // Bindings
         this.pointerUp = pointerUp.bind(this)
         this.generateMathProblem = action.generateMathProblem.bind(this)
+        this.lose = action.lose.bind(this)
 
         // Scene config
         this.sceneStopped = false
@@ -71,6 +73,10 @@ export default class Game extends Phaser.Scene {
         this.scoreTxt = this.add.bitmapText(this.width / 2, 60, 'atarismooth', '0', 28).setOrigin(.5)
 
         this.barWBase = this.width / 2
+        this.barTsBox = this.add.graphics()
+        this.barTsBox.fillStyle(0xFFFFFF, .8)
+        this.barTsBox.fillRect((this.width / 4) - 4, 148, this.barWBase + 4, 52)
+        this.barTsBox.visible = false
         this.barTs = this.add.tileSprite(this.width / 4, 150, this.barWBase, 48, 'bar').setOrigin(0)
         this.barTs.visible = false
 
@@ -109,11 +115,9 @@ export default class Game extends Phaser.Scene {
                     this.gamePlay.score += 100
                     this.scoreTxt.setText(this.gamePlay.score)
                 } else
-                    action.lose.call(this)
+                    this.lose()
             }
         })
-
-
         // GAME OBJECTS
 
         // START GAME
@@ -145,22 +149,35 @@ export default class Game extends Phaser.Scene {
                     child.visible = true
                 })
             }
+
             // loop game
             if (this.gamePlay.status == constant.statusGame.RUNNING && !this.gamePlay.mathProblemExist) {
                 this.generateMathProblem()
+                // increase dificulty                
+                this.gamePlay.dificultyLevel += 1
                 this.gameCountdown = this.gamePlay.gameCountdownBase
+                // increase dificulty
+                if (this.gamePlay.dificultyLevel < 40)
+                    this.barTs.setTint("0x00FF00")
+                else if (this.gamePlay.dificultyLevel >= 40 && this.gamePlay.dificultyLevel < 80)
+                    this.barTs.clearTint()
+                else
+                    this.barTs.setTint("0xDC143C")
+                this.gamePlay.dificultyLevel < 40
                 this.barTs.width = this.barWBase
                 this.barTs.visible = true
-
+                this.barTsBox.visible = true
             }
+
             // game countdown
-            if (this.gamePlay.status === constant.statusGame.RUNNING) {
-                this.gameCountdown -= delta
-                this.barTs.width = (this.barWBase * this.gameCountdown) / this.gamePlay.gameCountdownBase
+            if (this.gamePlay.status === constant.statusGame.RUNNING && this.gamePlay.mathProblemExist) {
+                this.barTs.width = ruleOfThree(this.barWBase, this.gameCountdown, this.gamePlay.gameCountdownBase)
+                this.gameCountdown -= delta + (delta * (this.gamePlay.dificultyLevel / 100))
+                //console.log(delta + (delta * (this.gamePlay.dificultyLevel / 100)))
                 if (this.gameCountdown <= 0) {
                     this.barTs.width = 0
                     this.barTs.visible = false
-                    action.lose.call(this)
+                    this.lose()
                 }
             }
         }
