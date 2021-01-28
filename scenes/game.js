@@ -65,6 +65,7 @@ export default class Game extends Phaser.Scene {
         // HANDLER SCENE
 
         // GAME OBJECTS  
+        this.add.image(this.width / 2, this.height / 2, "background2").setOrigin(.5)
         this.resultTxtGroup = this.add.group()
         this.resultBtnGroup = this.add.group()
         this.messageGameTxt = this.add.bitmapText(this.width / 2, this.height / 2, 'atarismooth', 'GET READY!', 50).setOrigin(.5)
@@ -157,13 +158,13 @@ export default class Game extends Phaser.Scene {
                 this.gamePlay.dificultyLevel += 1
                 this.gameCountdown = this.gamePlay.gameCountdownBase
                 // increase dificulty
-                if (this.gamePlay.dificultyLevel < 40)
+                if (this.gamePlay.dificultyLevel < 70)
                     this.barTs.setTint("0x00FF00")
-                else if (this.gamePlay.dificultyLevel >= 40 && this.gamePlay.dificultyLevel < 80)
+                else if (this.gamePlay.dificultyLevel >= 70 && this.gamePlay.dificultyLevel < 120)
                     this.barTs.clearTint()
                 else
                     this.barTs.setTint("0xDC143C")
-                this.gamePlay.dificultyLevel < 40
+                
                 this.barTs.width = this.barWBase
                 this.barTs.visible = true
                 this.barTsBox.visible = true
@@ -203,7 +204,7 @@ export default class Game extends Phaser.Scene {
         const scaleX = this.sizer.width / this.game.screenSize.width
         const scaleY = this.sizer.height / this.game.screenSize.height
 
-        camera.setViewport(x, y, this.sizer.width, this.sizer.height)
+        //camera.setViewport(x, y, this.sizer.width, this.sizer.height)
         camera.setZoom(Math.max(scaleX, scaleY))
         camera.centerOn(this.game.screenSize.width / 2, this.game.screenSize.height / 2)
         this.handlerScene.updateCamera()

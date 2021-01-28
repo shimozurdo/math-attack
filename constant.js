@@ -1,8 +1,8 @@
 const constant = {
     color: {
-        TITLE: "#f50057",
-        MENU: "#aa00ff",
-        GAME: "#3F51B5"
+        TITLE: "#06063a",
+        MENU: "#06063a",
+        GAME: "#06063a"
     },
     ORIENTATION: "portrait",
     dificulty: {

@@ -83,7 +83,7 @@ export default class Hub extends Phaser.Scene {
             });
         }
 
-        this.creditsTxt = this.add.text(this.width / 2, this.height - 30, 'Shimozurdo Games', { fontFamily: 'Arial', fontSize: '20px' }).setOrigin(.5).setDepth(1);
+        this.creditsTxt = this.add.text(this.width / 2, this.height - 30, 'Luderix Games', { fontFamily: 'Arial', fontSize: '20px' }).setOrigin(.5).setDepth(1);
         this.creditsTxt.visible = false;
         this.scale.on("resize", this.resize, this);
     }

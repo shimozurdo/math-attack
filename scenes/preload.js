@@ -18,11 +18,14 @@ export default class Preload extends Phaser.Scene {
         this.load.image("logo", "assets/images/logo.png")
         this.load.image("guide", "assets/images/640x960-guide.png")
         this.load.image("button", "assets/images/button.png")
+        this.load.image("button1", "assets/images/button1.png")
         this.load.image("button-square", "assets/images/button-square.png")
         this.load.image("counterclockwide-arrow", "assets/images/counterclockwide-arrow.png")        
         this.load.image("numbers", "assets/images/numbers.png")
         this.load.image("bar", "assets/images/bar.png")
         this.load.image("reload", "assets/images/reload.png")
+        this.load.image("background", "assets/images/background.png")
+        this.load.image("background2", "assets/images/background2.png")
         //---------------------------------------------------------------------->
         this.width = this.sys.game.canvas.width
         this.height = this.sys.game.canvas.height
