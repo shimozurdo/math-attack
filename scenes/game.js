@@ -43,6 +43,10 @@ export default class Game extends Phaser.Scene {
         // Game config
         this.gamePlay = setting.resetGamePlay()
         this.gamePlay.dificulty = this.dificulty
+        if (this.gamePlay.dificulty === constant.dificulty.EASY)
+            this.gamePlay.gameCountdownBase = 15000
+        else
+            this.gamePlay.gameCountdownBase = 10000
     }
 
     create() {
@@ -66,7 +70,6 @@ export default class Game extends Phaser.Scene {
 
         // GAME OBJECTS  
         this.add.image(this.width / 2, this.height / 2, "background2").setOrigin(.5)
-        // this.add.image(this.width / 2, this.height / 2, "background3").setOrigin(.5)
         this.resultTxtGroup = this.add.group()
         this.resultBtnGroup = this.add.group()
         this.messageGameTxt = this.add.bitmapText(this.width / 2, this.height / 2, 'atarismooth', 'GET READY!', 50).setOrigin(.5)
@@ -144,13 +147,20 @@ export default class Game extends Phaser.Scene {
                 return
             }
             else if (this.gamePlay.status == constant.statusGame.STARTING && this.gamePlay.initialCountdown < 1000) {
-                this.messageGameTxt.setText('')
-                this.gamePlay.status = constant.statusGame.RUNNING
-                this.resultBtnGroup.children.each(function (child) {
-                    child.visible = true
-                })
-                this.resultTxtGroup.children.each(function (child) {
-                    child.visible = true
+                this.time.addEvent({
+                    delay: 1000,
+                    callback: () => {
+                        this.gamePlay.initialCountdown = 0
+                        this.messageGameTxt.setText('')
+                        this.gamePlay.status = constant.statusGame.RUNNING
+                        this.resultBtnGroup.children.each(function (child) {
+                            child.visible = true
+                        })
+                        this.resultTxtGroup.children.each(function (child) {
+                            child.visible = true
+                        })
+                    },
+                    loop: false
                 })
             }
 

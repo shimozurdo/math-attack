@@ -29,7 +29,7 @@ function getValuesProblem(dificulty) {
         let value1, value2
         if (operator.symbol === "x") {
             value1 = Phaser.Math.Between(1, 10)
-            value2 = Phaser.Math.Between(1, 10)
+            value2 = Phaser.Math.Between(0, 10)
             let changePosValuesRan = Phaser.Math.Between(1, 2)
             if (changePosValuesRan === 1) {
                 let value1Aux = value1
@@ -157,8 +157,13 @@ function getResults(values, dificulty) {
                         otherResult = Phaser.Math.Between(0, sumValues * 2)
                     } else if (values.operator.symbol === "-")
                         otherResult = Phaser.Math.Between(0, (values.value1 + values.value2) * 2)
-                    else if (values.operator.symbol === "x")
-                        otherResult = Phaser.Math.Between(0, (values.value1 * values.value2) * 2)
+                    else if (values.operator.symbol === "x") {
+                        let otherResultRan = Phaser.Math.Between(1, 2)
+                        if (otherResultRan === 1)
+                            otherResult = Phaser.Math.Between(0, (values.value1 * values.value2) * 2)
+                        else
+                            otherResult = Phaser.Math.Between(0, (values.value1 * values.value2))
+                    }
 
                     otherResultExist = otherResultList.includes(otherResult)
 
