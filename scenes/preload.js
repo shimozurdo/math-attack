@@ -26,6 +26,7 @@ export default class Preload extends Phaser.Scene {
         this.load.image("reload", "assets/images/reload.png")
         this.load.image("background", "assets/images/background.png")
         this.load.image("background2", "assets/images/background2.png")
+        this.load.image("background3", "assets/images/background3.png")
         //---------------------------------------------------------------------->
         this.width = this.sys.game.canvas.width
         this.height = this.sys.game.canvas.height

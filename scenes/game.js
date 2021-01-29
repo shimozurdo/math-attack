@@ -66,6 +66,7 @@ export default class Game extends Phaser.Scene {
 
         // GAME OBJECTS  
         this.add.image(this.width / 2, this.height / 2, "background2").setOrigin(.5)
+        // this.add.image(this.width / 2, this.height / 2, "background3").setOrigin(.5)
         this.resultTxtGroup = this.add.group()
         this.resultBtnGroup = this.add.group()
         this.messageGameTxt = this.add.bitmapText(this.width / 2, this.height / 2, 'atarismooth', 'GET READY!', 50).setOrigin(.5)
@@ -109,14 +110,16 @@ export default class Game extends Phaser.Scene {
         }
 
         this.input.on('gameobjectdown', (pointer, child) => {
-            const resultTxt = this.resultTxtGroup.getChildren().find(v => v.name === 'resultTxt-' + child.name.split('-')[1])
-            if (resultTxt) {
-                if (action.chooseSolution.call(this, resultTxt.text)) {
-                    this.gamePlay.mathProblemExist = false
-                    this.gamePlay.score += 100
-                    this.scoreTxt.setText(this.gamePlay.score)
-                } else
-                    this.lose()
+            if (!this.gamePlay.gameOver) {
+                const resultTxt = this.resultTxtGroup.getChildren().find(v => v.name === 'resultTxt-' + child.name.split('-')[1])
+                if (resultTxt) {
+                    if (action.chooseSolution.call(this, resultTxt.text)) {
+                        this.gamePlay.mathProblemExist = false
+                        this.gamePlay.score += 100
+                        this.scoreTxt.setText(this.gamePlay.score)
+                    } else
+                        this.lose()
+                }
             }
         })
         // GAME OBJECTS
@@ -164,7 +167,7 @@ export default class Game extends Phaser.Scene {
                     this.barTs.clearTint()
                 else
                     this.barTs.setTint("0xDC143C")
-                
+
                 this.barTs.width = this.barWBase
                 this.barTs.visible = true
                 this.barTsBox.visible = true

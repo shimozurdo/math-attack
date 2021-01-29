@@ -2,98 +2,98 @@ import constant from "../constant.js"
 
 function getValuesProblem(dificulty) {
     if (dificulty === constant.dificulty.EASY) {
-        let value1 = Phaser.Math.Between(1, 10);
-        let value2 = Phaser.Math.Between(1, 10);
-        let allowValuesRepeted = false;
-        let allowValuesRepetedRan;
+        let value1 = Phaser.Math.Between(1, 10)
+        let value2 = Phaser.Math.Between(1, 10)
+        let allowValuesRepeted = false
+        let allowValuesRepetedRan
         if (value1 === value1) {
-            allowValuesRepetedRan = Phaser.Math.Between(1, 2);
-            allowValuesRepeted = allowValuesRepetedRan === 1 ? true : false;
+            allowValuesRepetedRan = Phaser.Math.Between(1, 2)
+            allowValuesRepeted = allowValuesRepetedRan === 1 ? true : false
         }
         if (!allowValuesRepeted)
             do {
-                value2 = Phaser.Math.Between(1, 10);
-            } while (value1 === value2);
-        let operator = getOperatorNumber(dificulty);
+                value2 = Phaser.Math.Between(1, 10)
+            } while (value1 === value2)
+        let operator = getOperatorNumber(dificulty)
         if (operator.symbol === "-") {
             do {
-                value2 = Phaser.Math.Between(1, value1);
-            } while (value2 > value1);
+                value2 = Phaser.Math.Between(1, value1)
+            } while (value2 > value1)
         }
-        return { value1, value2, operator };
+        return { value1, value2, operator }
     }
 }
 
 function getOperatorNumber(dificulty) {
-    let operator = {};
+    let operator = {}
     if (dificulty === constant.dificulty.EASY) {
-        operator.id = Phaser.Math.Between(1, 2);
-        operator.symbol = getOperatorStr(operator.id);
+        operator.id = Phaser.Math.Between(1, 2)
+        operator.symbol = getOperatorStr(operator.id)
     }
-    return operator;
+    return operator
 }
 
 function getOperatorStr(operatorId) {
-    let operatorSymbol = "";
+    let operatorSymbol = ""
     switch (operatorId) {
         case 1:
-            operatorSymbol = "+";
-            break;
+            operatorSymbol = "+"
+            break
         case 2:
-            operatorSymbol = "-";
-            break;
+            operatorSymbol = "-"
+            break
         case 3:
-            operatorSymbol = "x";
-            break;
+            operatorSymbol = "x"
+            break
         case 4:
-            operatorSymbol = "/";
-            break;
+            operatorSymbol = "/"
+            break
     }
-    return operatorSymbol;
+    return operatorSymbol
 }
 
 function getResults(values, dificulty) {
-    let results = {};
+    let results = {}
     if (values.operator.symbol === "+") { results.solution = values.value1 + values.value2 }
     if (values.operator.symbol === '-') { results.solution = values.value1 - values.value2 }
     if (values.operator.symbol === 'x') { results.solution = values.value1 * values.value2 }
     if (values.operator.symbol === '/') { results.solution = values.value1 / values.value2 }
-    let otherResultList = [];
+    let otherResultList = []
     if (dificulty === constant.dificulty.EASY) {
-        const resultCloseToSolutionIndex = Phaser.Math.Between(1, 3);
+        const resultCloseToSolutionIndex = Phaser.Math.Between(1, 3)
 
         for (let i = 0; i < 3; i++) {
-            let otherResultExist = false;
-            let otherResult;
+            let otherResultExist = false
+            let otherResult
             do {
                 if (resultCloseToSolutionIndex === i) {
-                    let resultCloseToSolutionFirstIndex = results.solution - Phaser.Math.Between(1, 5);
-                    let resultCloseToSolutionLastIndex = results.solution + Phaser.Math.Between(1, 5);
-                    otherResult = Phaser.Math.Between(resultCloseToSolutionFirstIndex, resultCloseToSolutionLastIndex);
-                    otherResultExist = otherResultList.includes(otherResult);
+                    let resultCloseToSolutionFirstIndex = results.solution - Phaser.Math.Between(1, 5)
+                    let resultCloseToSolutionLastIndex = results.solution + Phaser.Math.Between(1, 5)
+                    otherResult = Phaser.Math.Between(resultCloseToSolutionFirstIndex, resultCloseToSolutionLastIndex)
+                    otherResultExist = otherResultList.includes(otherResult)
 
                     if (!otherResultExist) {
                         if (otherResult < 0)
-                            otherResult = 0;
-                        otherResultList[i] = otherResult;
+                            otherResult = 0
+                        otherResultList[i] = otherResult
                     }
                 } else {
                     if (values.operator.symbol === "+") {
-                        let sumValues = values.value1 + values.value2;
-                        otherResult = Phaser.Math.Between(0, sumValues * 2);
+                        let sumValues = values.value1 + values.value2
+                        otherResult = Phaser.Math.Between(0, sumValues * 2)
                     } else if (values.operator.symbol === "-")
-                        otherResult = Phaser.Math.Between(0, (values.value1 + values.value2) * 2);
+                        otherResult = Phaser.Math.Between(0, (values.value1 + values.value2) * 2)
 
-                    otherResultExist = otherResultList.includes(otherResult);
+                    otherResultExist = otherResultList.includes(otherResult)
 
                     if (!otherResultExist)
-                        otherResultList[i] = otherResult;
+                        otherResultList[i] = otherResult
                 }
-            } while (otherResultList[i] === results.solution || otherResultExist);
+            } while (otherResultList[i] === results.solution || otherResultExist)
         }
-        results.otherResultList = otherResultList;
+        results.otherResultList = otherResultList
     }
-    return results;
+    return results
 }
 
 export {

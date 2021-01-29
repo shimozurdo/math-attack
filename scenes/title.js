@@ -43,8 +43,9 @@ export default class Title extends Phaser.Scene {
         // HANDLER SCENE
 
         // BACKGROUND AND HUB
-        this.add.image(this.width / 2, this.height / 2, "background").setOrigin(.5)
-        this.gameTitleTxt = this.add.bitmapText(this.width / 2, this.height / 3, "atarismooth", "MATH ATTACK", 55).setOrigin(.5)
+        const bgImage = this.add.image(this.width / 2, this.height / 2, "background").setOrigin(.5)
+        bgImage.alpha = .5
+        this.gameTitleTxt = this.add.bitmapText(this.width / 2, this.height / 4, "atarismooth", "MATH\nATTACK", 55, 1).setOrigin(.5)
 
         this.tweens.add({
             targets: this.gameTitleTxt,

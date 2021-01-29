@@ -35,17 +35,23 @@ function chooseSolution(solution) {
 }
 
 function lose() {
-    this.messageGameTxt.setTint("0xff0000");
+    this.messageGameTxt.setTint("0xff0000")
     this.messageGameTxt.setText("You lose!")
     this.gamePlay.gameOver = true
     this.resultBtnGroup.setVisible(false)
     this.resultTxtGroup.setVisible(false)
-    this.reloadBtn = this.add.image(this.width / 2, (this.height / 2) + 200, "reload").setOrigin(.5).setInteractive({ cursor: "pointer" })
-    this.pointerUp(() => {
-        this.registry.destroy();
-        this.events.off();
-        this.scene.restart();
-    }, this.reloadBtn)
+    this.time.addEvent({
+        delay: 1000,
+        callback: () => {
+            this.reloadBtn = this.add.image(this.width / 2, (this.height / 2) + 200, "reload").setOrigin(.5).setInteractive({ cursor: "pointer" })
+            this.pointerUp(() => {
+                this.registry.destroy()
+                this.events.off()
+                this.scene.restart()
+            }, this.reloadBtn)
+        },
+        loop: false
+    })
 }
 // UPDATE GAME PLAY
 
