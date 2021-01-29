@@ -85,7 +85,7 @@ export default class Hub extends Phaser.Scene {
             })
         }
 
-        this.creditsTxt = this.add.text(this.width / 2, this.height - 30, 'Luderix Games', { fontFamily: 'Arial', fontSize: '20px' }).setOrigin(.5).setDepth(1)
+        this.creditsTxt = this.add.text(this.width / 2, this.height - 30, 'Luderix Games 2021', { fontFamily: 'Arial', fontSize: '25px' }).setOrigin(.5).setDepth(1)
         this.creditsTxt.visible = false
         this.scale.on("resize", this.resize, this)
     }
@@ -95,10 +95,10 @@ export default class Hub extends Phaser.Scene {
             this.creditsTxt.visible = true
             this.soundBtn.visible = true
             this.quitBtn.visible = false
-        } else if (this.handlerScene.sceneRunning === 'menu')
+        } else if (this.handlerScene.sceneRunning === 'menu') {
             this.quitBtn.visible = true
-        else
             this.creditsTxt.visible = false
+        }
     }
 
     clickBackScene(sceneTxt) {

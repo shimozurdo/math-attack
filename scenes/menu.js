@@ -63,14 +63,17 @@ export default class Menu extends Phaser.Scene {
                 { text: "Normal", dificulty: constant.dificulty.NORMAL },
                 { text: "Hard", dificulty: constant.dificulty.HARD }
             ]
-            for (let i = 0 ;i< configDificultyButtonList.length; i++) {
+            for (let i = 0; i < configDificultyButtonList.length; i++) {
 
-                let dificultyBtn = this.add.image(this.width / 2, posY, "button").setOrigin(.5).setInteractive({ cursor: "pointer" })
-                this.pointerUp(() => {
-                    // this.startGame(configDificultyButtonList[i].dificulty)
-                    this.startGame(0)
-                }, dificultyBtn)
-                pointerOver(dificultyBtn)
+                let dificultyBtn = this.add.image(this.width / 2, posY, "button").setOrigin(.5)
+                if (configDificultyButtonList[i].dificulty != constant.dificulty.HARD) {
+                    dificultyBtn.setInteractive({ cursor: "pointer" })
+                    this.pointerUp(() => {
+                        this.startGame(configDificultyButtonList[i].dificulty)
+                        //this.startGame(0)
+                    }, dificultyBtn)
+                    pointerOver(dificultyBtn)
+                }
                 if (i !== 1)
                     dificultyBtn.setScale(.8)
                 else
@@ -81,6 +84,8 @@ export default class Menu extends Phaser.Scene {
                 dificultyTxt.setTint(stringToHex(constant.color.MENU))
                 this.dificultyTxtGrp.add(dificultyTxt)
                 posY += 150
+                if (configDificultyButtonList[i].dificulty === constant.dificulty.HARD)
+                    this.add.image(dificultyBtn.x, dificultyBtn.y, "lock").setOrigin(.5)
 
             }
 
