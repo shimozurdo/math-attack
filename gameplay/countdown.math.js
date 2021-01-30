@@ -32,8 +32,10 @@ function chooseSolution(solution) {
         return true
     } else {
         let currentScore = parseInt(localStorage.getItem('score')) || 0
-        if (this.gamePlay.score > currentScore)
-            localStorage.setItem('score', this.gamePlay.score);
+        if (this.gamePlay.score > currentScore) {
+            localStorage.setItem('score', this.gamePlay.score)
+            this.add.bitmapText(this.width / 2, (this.height / 2) + 90, "atarismooth", "New Max Score: " + this.gamePlay.score, 25, 1).setOrigin(.5)
+        }
         return false
     }
 }

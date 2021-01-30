@@ -100,10 +100,14 @@ function getResults(values, dificulty) {
     let otherResultList = []
     if (dificulty === constant.dificulty.EASY) {
         const resultCloseToSolutionIndex = Phaser.Math.Between(1, 3)
+        let it = 0
         for (let i = 0; i < 3; i++) {
             let otherResultExist = false
             let otherResult
             do {
+                it++
+                if (it > 1000)
+                    debugger
                 if (resultCloseToSolutionIndex === i) {
                     let resultCloseToSolutionFirstIndex = results.solution - Phaser.Math.Between(1, 5)
                     let resultCloseToSolutionLastIndex = results.solution + Phaser.Math.Between(1, 5)
@@ -166,6 +170,10 @@ function getResults(values, dificulty) {
                     }
 
                     otherResultExist = otherResultList.includes(otherResult)
+                    if (otherResultExist && otherResult === 0) {
+                        otherResult = Phaser.Math.Between(0, (values.value1 * values.value2))
+                        otherResultExist = false;
+                    }
 
                     if (!otherResultExist)
                         otherResultList[i] = otherResult
