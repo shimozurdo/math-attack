@@ -47,6 +47,8 @@ export default class Menu extends Phaser.Scene {
         // GAME OBJECTS  
         this.add.image(this.width / 2, this.height / 2, "background2").setOrigin(.5)
         this.add.image(this.width / 2, this.height / 2, "background3").setOrigin(.5).alpha = .2
+        let currentScore = parseInt(localStorage.getItem('score')) || 0
+        this.add.bitmapText(this.width / 2, 20, "atarismooth", "Max Score : " + currentScore, 18, 1).setOrigin(.5)
 
         this.dificultyBtnGrp = this.add.group()
         this.dificultyTxtGrp = this.add.group()

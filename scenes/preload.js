@@ -20,9 +20,10 @@ export default class Preload extends Phaser.Scene {
         this.load.image("button", "assets/images/button.png")
         this.load.image("button1", "assets/images/button1.png")
         this.load.image("button-square", "assets/images/button-square.png")
-        this.load.image("counterclockwide-arrow", "assets/images/counterclockwide-arrow.png")        
+        this.load.image("counterclockwide-arrow", "assets/images/counterclockwide-arrow.png")
         this.load.image("numbers", "assets/images/numbers.png")
-        this.load.image("bar", "assets/images/bar.png")
+        this.load.image("bar-countdown", "assets/images/bar-countdown.png")
+        this.load.image("bar-countdown-frame", "assets/images/bar-countdown-frame.png")
         this.load.image("reload", "assets/images/reload.png")
         this.load.image("background", "assets/images/background.png")
         this.load.image("background2", "assets/images/background2.png")
@@ -103,7 +104,7 @@ export default class Preload extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(this.game.screenSize.width / 2, this.game.screenSize.height / 2, "logo").setOrigin(.5)
+        this.add.image(this.game.screenSize.width / 2, this.game.screenSize.height / 2, "logo").setOrigin(.5).setScale(.5)
         // HANDLER SCENE
         if (this.game.debugMode)
             this.add.image(0, 0, "guide").setOrigin(0).setDepth(1)

@@ -28,10 +28,14 @@ function generateMathProblem() {
 }
 
 function chooseSolution(solution) {
-    if (this.gamePlay.data.solution === parseInt(solution))
+    if (this.gamePlay.data.solution === parseInt(solution)) {
         return true
-    else
+    } else {
+        let currentScore = parseInt(localStorage.getItem('score')) || 0
+        if (this.gamePlay.score > currentScore)
+            localStorage.setItem('score', this.gamePlay.score);
         return false
+    }
 }
 
 function lose() {

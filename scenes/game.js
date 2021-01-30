@@ -77,18 +77,16 @@ export default class Game extends Phaser.Scene {
         this.add.bitmapText(this.width / 2, 30, 'atarismooth', 'Score', 25).setOrigin(.5)
         this.scoreTxt = this.add.bitmapText(this.width / 2, 60, 'atarismooth', '0', 28).setOrigin(.5)
 
-        this.barWBase = this.width / 2
-        this.barTsBox = this.add.graphics()
-        this.barTsBox.fillStyle(0xFFFFFF, .8)
-        this.barTsBox.fillRect((this.width / 4) - 4, 148, this.barWBase + 4, 52)
-        this.barTsBox.visible = false
-        this.barTs = this.add.tileSprite(this.width / 4, 150, this.barWBase, 48, 'bar').setOrigin(0)
+        this.barWBase = 320   
+        this.barTs = this.add.tileSprite(this.width / 4, 150, this.barWBase, 56, 'bar-countdown').setOrigin(0)
+        this.barTsFrame = this.add.image(this.width / 4, 150, 'bar-countdown-frame').setOrigin(0)
         this.barTs.visible = false
+        this.barTsFrame.visible = false
 
         let posX = this.width / 4
         let posXplus = 0
         let posY = this.height
-        let posYplus = 300
+        let posYplus = 400
 
         for (let i = 0; i < 4; i++) {
             if (i === 1 || i === 3)
@@ -96,7 +94,7 @@ export default class Game extends Phaser.Scene {
             else if (i === 2)
                 posXplus = 0
             if (i > 1)
-                posYplus = 120
+                posYplus = 220
 
             let resultBtn = this.add.image(posX + posXplus + (i % 2 ? -30 : 30), posY - posYplus, 'button-square').setOrigin(.5).setInteractive({ cursor: 'pointer' })
             resultBtn.setScale(1, .8)
@@ -171,16 +169,16 @@ export default class Game extends Phaser.Scene {
                 this.gamePlay.dificultyLevel += 1
                 this.gameCountdown = this.gamePlay.gameCountdownBase
                 // increase dificulty
-                if (this.gamePlay.dificultyLevel < 70)
-                    this.barTs.setTint("0x00FF00")
-                else if (this.gamePlay.dificultyLevel >= 70 && this.gamePlay.dificultyLevel < 120)
-                    this.barTs.clearTint()
-                else
-                    this.barTs.setTint("0xDC143C")
+                // if (this.gamePlay.dificultyLevel < 70)
+                //     this.barTs.setTint("0x00FF00")
+                // else if (this.gamePlay.dificultyLevel >= 70 && this.gamePlay.dificultyLevel < 120)
+                //     this.barTs.clearTint()
+                // else
+                //     this.barTs.setTint("0xDC143C")
 
                 this.barTs.width = this.barWBase
                 this.barTs.visible = true
-                this.barTsBox.visible = true
+                this.barTsFrame.visible = true
             }
 
             // game countdown
