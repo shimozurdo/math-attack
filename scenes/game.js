@@ -77,7 +77,7 @@ export default class Game extends Phaser.Scene {
         this.add.bitmapText(this.width / 2, 30, 'atarismooth', 'Score', 25).setOrigin(.5)
         this.scoreTxt = this.add.bitmapText(this.width / 2, 60, 'atarismooth', '0', 28).setOrigin(.5)
 
-        this.barWBase = 320   
+        this.barWBase = 320
         this.barTs = this.add.tileSprite(this.width / 4, 150, this.barWBase, 56, 'bar-countdown').setOrigin(0)
         this.barTsFrame = this.add.image(this.width / 4, 150, 'bar-countdown-frame').setOrigin(0)
         this.barTs.visible = false

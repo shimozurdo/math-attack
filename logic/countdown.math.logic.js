@@ -37,7 +37,7 @@ function getValuesProblem(dificulty) {
                 value2 = value1Aux
             }
         } else {
-            value1 = Phaser.Math.Between(1, 20)
+            value1 = Phaser.Math.Between(1, 15)
             value2 = Phaser.Math.Between(1, 10)
             let allowValuesRepeted = false
             let allowValuesRepetedRan
@@ -47,7 +47,7 @@ function getValuesProblem(dificulty) {
             }
             if (!allowValuesRepeted)
                 do {
-                    value2 = Phaser.Math.Between(1, 20)
+                    value2 = Phaser.Math.Between(1, 10)
                 } while (value1 === value2)
 
             if (operator.symbol === "-") {
@@ -164,14 +164,14 @@ function getResults(values, dificulty) {
                     else if (values.operator.symbol === "x") {
                         let otherResultRan = Phaser.Math.Between(1, 2)
                         if (otherResultRan === 1)
-                            otherResult = Phaser.Math.Between(0, (values.value1 * values.value2) * 2)
+                            otherResult = Phaser.Math.Between(0, (values.value1 * values.value2) + 5)
                         else
                             otherResult = Phaser.Math.Between(0, (values.value1 * values.value2))
                     }
 
                     otherResultExist = otherResultList.includes(otherResult)
                     if (otherResultExist && otherResult === 0) {
-                        otherResult = Phaser.Math.Between(0, (values.value1 * values.value2))
+                        otherResult = Phaser.Math.Between(0, ((values.value1 > 0 ? values.value1 : 1) * (values.value2 > 0 ? values.value2 : 10)))
                         otherResultExist = false;
                     }
 

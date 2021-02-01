@@ -46,6 +46,8 @@ function lose() {
     this.gamePlay.gameOver = true
     this.resultBtnGroup.setVisible(false)
     this.resultTxtGroup.setVisible(false)
+    let mathProblemTxt = this.mathProblemTxt.text.replace("?", "")
+    this.mathProblemTxt.setText(mathProblemTxt + this.gamePlay.data.solution)
     this.time.addEvent({
         delay: 1000,
         callback: () => {
