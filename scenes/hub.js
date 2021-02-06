@@ -19,8 +19,8 @@ export default class Hub extends Phaser.Scene {
         // Audio
         this.load.audio("pleasant-creek-loop", ["assets/audio/pleasant-creek-loop.mp3", "assets/audio/pleasant-creek-loop.ogg"])
         //---------------------------------------------------------------------->
-        this.width = this.sys.game.canvas.width
-        this.height = this.sys.game.canvas.height
+        this.canvasWidth = this.sys.game.canvas.width
+        this.canvasHeight = this.sys.game.canvas.height
         this.handlerScene = this.scene.get("handler")
         //Orientation
         this.scale.lockOrientation(constant.ORIENTATION)
@@ -29,10 +29,10 @@ export default class Hub extends Phaser.Scene {
         this.pointerUp = pointerUp.bind(this)
         if (!this.game.embedded)
             fullScreen.call(this)
+        this.creditsTxt = this.add.text(this.canvasWidth / 2, this.canvasHeight - 22, 'Shimozurdo Games 2021', { fontFamily: 'Arial', fontSize: '18px', color: '#000', }).setOrigin(.5).setDepth(1)
     }
 
     create() {
-
         this.music = this.sound.add("pleasant-creek-loop", {
             volume: .3,
             loop: true,
@@ -47,7 +47,7 @@ export default class Hub extends Phaser.Scene {
         }, this.quitBtn)
 
         let multiplePosY = this.game.embedded ? 1 : 3
-        this.soundBtn = this.add.image(this.width - posItemHubBase, posItemHubBase * multiplePosY, "sound").setOrigin(.5).setDepth(1).setInteractive({ cursor: "pointer" })
+        this.soundBtn = this.add.image(this.canvasWidth - posItemHubBase, posItemHubBase * multiplePosY, "sound").setOrigin(.5).setDepth(1).setInteractive({ cursor: "pointer" })
         this.soundBtn.visible = false
 
         if (this.game.debugMode) {
@@ -71,7 +71,7 @@ export default class Hub extends Phaser.Scene {
 
         if (!this.game.embedded) {
             multiplePosY = this.game.embedded ? 3 : 1
-            this.fullscreenBtn = this.add.image(this.width - posItemHubBase, posItemHubBase * multiplePosY, "fullscreen", 0).setOrigin(.5).setDepth(1).setInteractive({ cursor: "pointer" })
+            this.fullscreenBtn = this.add.image(this.canvasWidth - posItemHubBase, posItemHubBase * multiplePosY, "fullscreen", 0).setOrigin(.5).setDepth(1).setInteractive({ cursor: "pointer" })
 
             this.fullscreenBtn.on("pointerup", () => {
                 if (this.scale.isFullscreen) {
@@ -83,21 +83,17 @@ export default class Hub extends Phaser.Scene {
                     this.scale.startFullscreen()
                 }
             })
-        }
-
-        this.creditsTxt = this.add.text(this.width / 2, this.height - 30, 'Shimozurdo Games 2021', { fontFamily: 'Arial', fontSize: '25px' }).setOrigin(.5).setDepth(1)
-        this.creditsTxt.visible = false
+        }        
         this.scale.on("resize", this.resize, this)
     }
 
     update() {
         if (this.handlerScene.sceneRunning === 'title') {
-            this.creditsTxt.visible = true
             this.soundBtn.visible = true
             this.quitBtn.visible = false
+            this.creditsTxt.visible = false
         } else if (this.handlerScene.sceneRunning === 'menu') {
             this.quitBtn.visible = true
-            this.creditsTxt.visible = false
         }
     }
 
@@ -107,6 +103,7 @@ export default class Hub extends Phaser.Scene {
         let bgColorScene
         switch (sceneTxt) {
             case "title":
+                this.creditsTxt.visible = false
                 return
             case "menu":
                 gotoScene = "title"

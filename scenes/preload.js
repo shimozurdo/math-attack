@@ -1,4 +1,4 @@
-import constant from "../constant.js"
+import constant from '../constant.js'
 
 export default class Preload extends Phaser.Scene {
 
@@ -8,95 +8,60 @@ export default class Preload extends Phaser.Scene {
     sceneStopped = false
 
     constructor() {
-        super({ key: "preload" })
+        super({ key: 'preload' })
     }
 
     preload() {
-        // Fonts
-        this.load.bitmapFont("atarismooth", "assets/fonts/atari-smooth.png", "assets/fonts/atari-smooth.xml")
         // Images
-        this.load.image("logo", "assets/images/logo.png")
-        this.load.image("guide", "assets/images/640x960-guide.png")
-        this.load.image("button", "assets/images/button.png")
-        this.load.image("button1", "assets/images/button1.png")
-        this.load.image("button-square", "assets/images/button-square.png")
-        this.load.image("counterclockwide-arrow", "assets/images/counterclockwide-arrow.png")
-        this.load.image("numbers", "assets/images/numbers.png")
-        this.load.image("bar-countdown", "assets/images/bar-countdown.png")
-        this.load.image("bar-countdown-frame", "assets/images/bar-countdown-frame.png")
-        this.load.image("reload", "assets/images/reload.png")
-        this.load.image("background", "assets/images/background.png")
-        this.load.image("background2", "assets/images/background2.png")
-        this.load.image("background3", "assets/images/background3.png")
-        this.load.image("lock", "assets/images/lock.png")
+        this.load.image('rocket', 'assets/images/rocket.png')
+        this.load.image('logo', 'assets/images/logo.png')
+        this.load.image('guide', 'assets/images/640x960-guide.png')
+        this.load.image('button', 'assets/images/button.png')
+        this.load.image('button1', 'assets/images/button1.png')
+        this.load.image('button-square', 'assets/images/button-square.png')
+        this.load.image('counterclockwide-arrow', 'assets/images/counterclockwide-arrow.png')
+        this.load.image('numbers', 'assets/images/numbers.png')
+        this.load.image('bar-countdown', 'assets/images/bar-countdown.png')
+        this.load.image('bar-countdown-frame', 'assets/images/bar-countdown-frame.png')
+        this.load.image('reload', 'assets/images/reload.png')
+        this.load.image('background', 'assets/images/background.png')
+        this.load.image('background2', 'assets/images/background2.png')
+        this.load.image('background3', 'assets/images/background3.png')
+        this.load.image('lock', 'assets/images/lock.png')
+        // Fonts
+        this.load.bitmapFont('atarismooth', 'assets/fonts/atari-smooth.png', 'assets/fonts/atari-smooth.xml')
         //---------------------------------------------------------------------->
-        this.width = this.sys.game.canvas.width
-        this.height = this.sys.game.canvas.height
+        this.canvasWidth = this.sys.game.canvas.width
+        this.canvasHeight = this.sys.game.canvas.height
 
-        this.handlerScene = this.scene.get("handler")
-
-        let progressBar = this.add.graphics()
+        this.handlerScene = this.scene.get('handler')
+        
         let progressBox = this.add.graphics()
-        progressBox.fillStyle(0x222222, 0.8)
-        progressBox.fillRect((this.width / 2) - (320 / 2), (this.height / 2) - (50 / 2), 320, 50)
+        progressBox.fillStyle(0x000, 0.8)
+        progressBox.fillRect((this.canvasWidth / 2) - (210 / 2), (this.canvasHeight / 2) - 5, 210, 30)
+        let progressBar = this.add.graphics()
 
-        let loadingText = this.make.text({
-            x: this.width / 2,
-            y: this.height / 2 - 50,
-            text: "Loading...",
-            style: {
-                font: "28px monospace",
-                fill: "#ffffff"
-            }
-        })
-        loadingText.setOrigin(0.5, 0.5)
-
-        let percentText = this.make.text({
-            x: this.width / 2,
-            y: this.height / 2 - 5,
-            text: "0%",
-            style: {
-                font: "28px monospace",
-                fill: "#ffffff"
-            }
-        })
-        percentText.setOrigin(0.5, 0.5)
-
-        let assetText = this.make.text({
-            x: this.width / 2,
-            y: this.height / 2 + 50,
-            text: "",
-            style: {
-                font: "18px monospace",
-                fill: "#ffffff"
-            }
-        })
-        assetText.setOrigin(0.5, 0.5)
-
-        this.load.on("progress", (value) => {
-            percentText.setText(parseInt(value * 100) + "%")
+        this.load.on('progress', (value) => {
             progressBar.clear()
-            progressBar.fillStyle(0xffffff, 1)
-            progressBar.fillRect((this.width / 2) - (300 / 2), (this.height / 2) - (30 / 2), 300 * value, 30)
+            progressBar.fillStyle(0xFF5758, 1)
+            progressBar.fillRect((this.canvasWidth / 2) - (200 / 2), (this.canvasHeight / 2), 200 * value, 20)
         })
 
-        this.load.on("fileprogress", (file) => {
-            assetText.setText("Loading asset: " + file.key)
+        this.load.on('fileprogress', (file) => {
+            if (file.key === 'logo')
+                this.rocket = this.add.image(this.canvasWidth / 2, (this.canvasHeight / 2) - 100, 'rocket').setOrigin(.5).setScale(.7)
         })
 
-        this.load.on("complete", () => {
+        this.load.on('complete', () => {
             progressBar.destroy()
-            progressBox.destroy()
-            loadingText.destroy()
-            percentText.destroy()
-            assetText.destroy()
+            progressBox.destroy()            
             this.time.addEvent({
-                delay: 2000,
+                delay: this.game.debugMode ? 3000 : 4000,
                 callback: () => {
                     this.sceneStopped = true
-                    this.scene.stop("preload")
+                    this.scene.stop('preload')
                     this.handlerScene.cameras.main.setBackgroundColor(constant.color.TITLE)
-                    this.handlerScene.launchScene("title")
+                    this.handlerScene.launchScene('title')
                 },
                 loop: false
             })
@@ -104,20 +69,21 @@ export default class Preload extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(this.game.screenSize.width / 2, this.game.screenSize.height / 2, "logo").setOrigin(.5).setScale(.5)
+        this.rocket.visible = false
+        this.add.image(this.game.screenSize.width / 2, (this.game.screenSize.height / 2), 'logo').setOrigin(.5)
         // HANDLER SCENE
         if (this.game.debugMode)
-            this.add.image(0, 0, "guide").setOrigin(0).setDepth(1)
-        this.scale.on("resize", this.resize, this)
+            this.add.image(0, 0, 'guide').setOrigin(0).setDepth(1)
+        this.scale.on('resize', this.resize, this)
 
-        const width = this.scale.gameSize.width
-        const height = this.scale.gameSize.height
+        const scaleWidth = this.scale.gameSize.width
+        const scaleHeight = this.scale.gameSize.height
 
-        this.parent = new Phaser.Structs.Size(width, height)
+        this.parent = new Phaser.Structs.Size(scaleWidth, scaleHeight)
         this.sizer = new Phaser.Structs.Size(this.game.screenSize.width, this.game.screenSize.height, Phaser.Structs.Size.FIT, this.parent)
 
-        this.parent.setSize(width, height)
-        this.sizer.setSize(width, height)
+        this.parent.setSize(scaleWidth, scaleHeight)
+        this.sizer.setSize(scaleWidth, scaleHeight)
         this.updateCamera()
         // HANDLER SCENE
     }

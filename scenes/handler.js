@@ -7,7 +7,7 @@ export default class Handler extends Phaser.Scene {
     }
 
     create() {
-        this.cameras.main.setBackgroundColor("#000");
+        this.cameras.main.setBackgroundColor("#FFF");
         this.launchScene("preload");
         this.launchScene("hub");
     }

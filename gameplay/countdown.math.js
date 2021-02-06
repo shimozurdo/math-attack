@@ -51,7 +51,7 @@ function lose() {
     this.time.addEvent({
         delay: 1000,
         callback: () => {
-            this.reloadBtn = this.add.image(this.width / 2, (this.height / 2) + 200, "reload").setOrigin(.5).setInteractive({ cursor: "pointer" })
+            this.reloadBtn = this.add.image(this.width / 2, (this.height / 2) + 220, "reload").setOrigin(.5).setInteractive({ cursor: "pointer" })
             this.pointerUp(() => {
                 this.registry.destroy()
                 this.events.off()
