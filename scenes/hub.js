@@ -7,6 +7,7 @@ export default class Hub extends Phaser.Scene {
     soundBtn = null
     music = null
     handlerScene = null
+
     constructor() {
         super("hub")
     }
@@ -30,9 +31,6 @@ export default class Hub extends Phaser.Scene {
         if (!this.game.embedded)
             fullScreen.call(this)
         this.creditsTxt = this.add.text(this.canvasWidth / 2, this.canvasHeight - 22, 'Shimozurdo Games 2021', { fontFamily: 'Arial', fontSize: '18px', color: '#000', }).setOrigin(.5).setDepth(1)
-
-        // settings
-        this.sceneTitleStarted = false
     }
 
     create() {
@@ -96,6 +94,16 @@ export default class Hub extends Phaser.Scene {
         this.fadeOutBox.setAlpha(1)
         this.fadeOutBox.canStartFade = false
         this.fadeOutBox.visible = false
+
+    }
+
+    prepareFadeOutBg() {
+        const { fadeOutBox } = this
+        fadeOutBox.setAlpha(10)
+        fadeOutBox.canStartFade = true
+        fadeOutBox.visible = true
+        this.game.sceneTitleStarted = true
+        this.game.showfadeOutBg = true
     }
 
     update(t, dt) {
@@ -104,25 +112,23 @@ export default class Hub extends Phaser.Scene {
             this.soundBtn.visible = true
             this.quitBtn.visible = false
             this.creditsTxt.visible = false
-            if (!this.sceneTitleStarted) {
-                fadeOutBox.setAlpha(10)
-                fadeOutBox.canStartFade = true
-                fadeOutBox.visible = true
-                this.sceneTitleStarted = true
+            if (!this.game.sceneTitleStarted) {
+                this.prepareFadeOutBg()
             }
         } else if (this.handlerScene.sceneRunning === 'menu') {
             this.quitBtn.visible = true
         }
 
-        if (fadeOutBox.canStartFade) {
+        if (this.game.showfadeOutBg && fadeOutBox.canStartFade) {
             fadeOutBox.canStartFade = false
             this.tweens.add({
                 targets: fadeOutBox,
                 alpha: 0,
                 duration: 800,
                 onComplete: () => {
-                    fadeOutBox.setAlpha(-1)
+                    fadeOutBox.setAlpha(1)
                     fadeOutBox.visible = false
+                    this.game.showfadeOutBg = false
                 },
             });
         }
@@ -132,7 +138,7 @@ export default class Hub extends Phaser.Scene {
         const scene = this.scene.get(sceneTxt)
         let gotoScene
         let bgColorScene
-    
+
         switch (sceneTxt) {
             case "title":
                 this.creditsTxt.visible = false
@@ -149,7 +155,7 @@ export default class Hub extends Phaser.Scene {
         scene.sceneStopped = true
         scene.scene.stop(sceneTxt)
         this.handlerScene.cameras.main.setBackgroundColor(bgColorScene)
-        this.handlerScene.launchScene(gotoScene, {})
+        this.handlerScene.launchScene(gotoScene)
     }
 
     resize() {

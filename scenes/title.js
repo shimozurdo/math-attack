@@ -45,7 +45,7 @@ export default class Title extends Phaser.Scene {
         // HANDLER SCENE
 
         // BACKGROUND
-        this.bgImage = this.add.image(width / 2, height / 2, 'background2').setOrigin(.5)
+        this.bgImage = this.add.image(width / 2, height / 2, 'background').setOrigin(.5)
         this.bgImage.alpha = .5
         this.gameTitleTxt = this.add.bitmapText(width / 2, (height / 3) - 800, 'atarismooth', 'MATH\nATTACK', 55, 1).setOrigin(.5)
         this.playBtn = this.add.image(this.width / 2, ((this.height / 2) + 200) - 800, 'button1').setOrigin(.5).setInteractive({ cursor: 'pointer' })
