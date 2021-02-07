@@ -15,7 +15,10 @@ const constant = {
         STARTING: 1,
         RUNNING: 2,
         PAUSE: 3
-    }
+    },
+    ANIM: {
+        FLY: "fly"
+    },
 }
 
 export default constant;

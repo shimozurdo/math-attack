@@ -1,4 +1,5 @@
 import constant from '../constant.js'
+import { createAnimation } from '../utils/common.js'
 
 export default class Preload extends Phaser.Scene {
 
@@ -13,7 +14,6 @@ export default class Preload extends Phaser.Scene {
 
     preload() {
         // Images
-        this.load.image('rocket', 'assets/images/rocket.png')
         this.load.image('logo', 'assets/images/logo.png')
         this.load.image('guide', 'assets/images/640x960-guide.png')
         this.load.image('button', 'assets/images/button.png')
@@ -28,6 +28,8 @@ export default class Preload extends Phaser.Scene {
         this.load.image('background2', 'assets/images/background2.png')
         this.load.image('background3', 'assets/images/background3.png')
         this.load.image('lock', 'assets/images/lock.png')
+        // Sprite sheets
+        this.load.spritesheet('rocket', 'assets/images/rocket.png', { frameWidth: 124, frameHeight: 200 });
         // Fonts
         this.load.bitmapFont('atarismooth', 'assets/fonts/atari-smooth.png', 'assets/fonts/atari-smooth.xml')
         //---------------------------------------------------------------------->
@@ -35,7 +37,7 @@ export default class Preload extends Phaser.Scene {
         this.canvasHeight = this.sys.game.canvas.height
 
         this.handlerScene = this.scene.get('handler')
-        
+
         let progressBox = this.add.graphics()
         progressBox.fillStyle(0x000, 0.8)
         progressBox.fillRect((this.canvasWidth / 2) - (210 / 2), (this.canvasHeight / 2) - 5, 210, 30)
@@ -47,14 +49,14 @@ export default class Preload extends Phaser.Scene {
             progressBar.fillRect((this.canvasWidth / 2) - (200 / 2), (this.canvasHeight / 2), 200 * value, 20)
         })
 
-        this.load.on('fileprogress', (file) => {
-            if (file.key === 'logo')
-                this.rocket = this.add.image(this.canvasWidth / 2, (this.canvasHeight / 2) - 100, 'rocket').setOrigin(.5).setScale(.7)
-        })
+        // this.load.on('fileprogress', (file) => {
+        //     if (file.key === 'logo')
+        //         this.rocket = this.add.image(this.canvasWidth / 2, (this.canvasHeight / 2) - 100, 'rocket').setOrigin(.5).setScale(.7)
+        // })
 
         this.load.on('complete', () => {
             progressBar.destroy()
-            progressBox.destroy()            
+            progressBox.destroy()
             this.time.addEvent({
                 delay: this.game.debugMode ? 3000 : 4000,
                 callback: () => {
@@ -66,10 +68,13 @@ export default class Preload extends Phaser.Scene {
                 loop: false
             })
         })
+
+        //binding actions to thins scene
+        this.createAnimation = createAnimation.bind(this);
     }
 
     create() {
-        this.rocket.visible = false
+        //this.rocket.visible = false
         this.add.image(this.game.screenSize.width / 2, (this.game.screenSize.height / 2), 'logo').setOrigin(.5)
         // HANDLER SCENE
         if (this.game.debugMode)
@@ -86,6 +91,10 @@ export default class Preload extends Phaser.Scene {
         this.sizer.setSize(scaleWidth, scaleHeight)
         this.updateCamera()
         // HANDLER SCENE
+
+        // ANIMATIONS       
+        this.createAnimation(constant.ANIM.FLY + '-rocket', 'rocket', 0, 2, 10, -1);
+        // ANIMATIONS  
     }
 
     resize(gameSize) {
