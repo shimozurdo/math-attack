@@ -16,8 +16,8 @@ export default class Title extends Phaser.Scene {
 
     preload() {
         this.sceneStopped = false
-        this.width = this.game.screenSize.width
-        this.height = this.game.screenSize.height
+        this.width = this.game.screenBaseSize.width
+        this.height = this.game.screenBaseSize.height
         this.handlerScene = this.scene.get('handler')
         this.handlerScene.sceneRunning = 'title'
         // Bindings
@@ -27,22 +27,11 @@ export default class Title extends Phaser.Scene {
 
     create() {
         const { width, height } = this
-        // HANDLER SCENE
+        // CONFIG SCENE         
+        this.handlerScene.updateResize(this)
         if (this.game.debugMode)
             this.add.image(0, 0, 'guide').setOrigin(0).setDepth(1)
-        this.scale.on('resize', this.resize, this)
-
-        const scaleWidth = this.scale.gameSize.width
-        const scaleHeight = this.scale.gameSize.height
-
-        this.parent = new Phaser.Structs.Size(scaleWidth, scaleHeight)
-        this.sizer = new Phaser.Structs.Size(width, height, Phaser.Structs.Size.FIT, this.parent)
-
-        this.parent.setSize(scaleWidth, scaleHeight)
-        this.sizer.setSize(scaleWidth, scaleHeight)
-
-        this.updateCamera()
-        // HANDLER SCENE
+        // CONFIG SCENE 
 
         // BACKGROUND
         this.bgImage = this.add.image(width / 2, height / 2, 'background').setOrigin(.5)
@@ -61,7 +50,8 @@ export default class Title extends Phaser.Scene {
 
         pointerOver(this.playBtn)
         // BACKGROUND 
-        // ACTORS
+
+        // GAME OBJECTS  
         this.rocket = this.add.sprite((width / 2) - 10, height - 20, 'rocket').setOrigin(.5, 1)
         this.rocket.anims.play(constant.ANIM.FLY + '-rocket')
         this.tweens.add({
@@ -75,7 +65,7 @@ export default class Title extends Phaser.Scene {
             repeat: -1,
             yoyo: true
         })
-        // ACTORS
+        // GAME OBJECTS  
     }
 
     update(t, dt) {
@@ -85,35 +75,5 @@ export default class Title extends Phaser.Scene {
         } else {
             this.rocket.y -= dt * .7
         }
-    }
-
-    resize(gameSize) {
-        if (!this.sceneStopped) {
-            const width = gameSize.width
-            const height = gameSize.height
-
-            this.parent.setSize(width, height)
-            this.sizer.setSize(width, height)
-
-            this.updateCamera()
-        }
-    }
-
-    updateCamera() {
-        const camera = this.cameras.main
-
-        const x = Math.ceil((this.parent.width - this.sizer.width) * 0.5)
-        const y = Math.ceil((this.parent.height - this.sizer.height) * 0.5)
-        const scaleX = this.sizer.width / this.game.screenSize.width
-        const scaleY = this.sizer.height / this.game.screenSize.height
-
-        //camera.setViewport(x, y, this.sizer.width, this.sizer.height)
-        camera.setZoom(Math.max(scaleX, scaleY))
-        camera.centerOn(this.game.screenSize.width / 2, this.game.screenSize.height / 2)
-        this.handlerScene.updateCamera()
-    }
-
-    getZoom() {
-        return this.cameras.main.zoom
     }
 }

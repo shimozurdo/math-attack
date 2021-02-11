@@ -24,7 +24,7 @@ export default class Hub extends Phaser.Scene {
         this.canvasHeight = this.sys.game.canvas.height
         this.handlerScene = this.scene.get("handler")
         //Orientation
-        this.scale.lockOrientation(constant.ORIENTATION)
+        this.scale.lockOrientation(this.game.orientation)
 
         // Bindings        
         this.pointerUp = pointerUp.bind(this)

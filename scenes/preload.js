@@ -3,8 +3,7 @@ import { createAnimation } from '../utils/common.js'
 
 export default class Preload extends Phaser.Scene {
 
-    width = null
-    height = null
+    // Vars
     handlerScene = null
     sceneStopped = false
 
@@ -15,7 +14,7 @@ export default class Preload extends Phaser.Scene {
     preload() {
         // Images
         this.load.image('logo', 'assets/images/logo.png')
-        this.load.image('guide', 'assets/images/640x960-guide.png')
+        this.load.image('guide', 'assets/images/960x540-guide.png')
         this.load.image('button', 'assets/images/button.png')
         this.load.image('button1', 'assets/images/button1.png')
         this.load.image('button-square', 'assets/images/button-square.png')
@@ -36,7 +35,12 @@ export default class Preload extends Phaser.Scene {
         this.canvasWidth = this.sys.game.canvas.width
         this.canvasHeight = this.sys.game.canvas.height
 
+        this.width = this.game.screenBaseSize.width
+        this.height = this.game.screenBaseSize.height
+
         this.handlerScene = this.scene.get('handler')
+        this.handlerScene.sceneRunning = 'preload'
+        this.sceneStopped = false
 
         let progressBox = this.add.graphics()
         progressBox.fillStyle(0x000, 0.8)
@@ -74,52 +78,19 @@ export default class Preload extends Phaser.Scene {
     }
 
     create() {
-        //this.rocket.visible = false
-        this.add.image(this.game.screenSize.width / 2, (this.game.screenSize.height / 2), 'logo').setOrigin(.5)
-        // HANDLER SCENE
+        const { width, height } = this
+        // CONFIG SCENE         
+        this.handlerScene.updateResize(this)
         if (this.game.debugMode)
             this.add.image(0, 0, 'guide').setOrigin(0).setDepth(1)
-        this.scale.on('resize', this.resize, this)
+        // CONFIG SCENE 
 
-        const scaleWidth = this.scale.gameSize.width
-        const scaleHeight = this.scale.gameSize.height
-
-        this.parent = new Phaser.Structs.Size(scaleWidth, scaleHeight)
-        this.sizer = new Phaser.Structs.Size(this.game.screenSize.width, this.game.screenSize.height, Phaser.Structs.Size.FIT, this.parent)
-
-        this.parent.setSize(scaleWidth, scaleHeight)
-        this.sizer.setSize(scaleWidth, scaleHeight)
-        this.updateCamera()
-        // HANDLER SCENE
+        // GAME OBJECTS  
+        this.add.image(width / 2, (height / 2), 'logo').setOrigin(.5)
+        // GAME OBJECTS          
 
         // ANIMATIONS       
         this.createAnimation(constant.ANIM.FLY + '-rocket', 'rocket', 0, 2, 10, -1);
         // ANIMATIONS  
-    }
-
-    resize(gameSize) {
-        if (!this.sceneStopped) {
-            const width = gameSize.width
-            const height = gameSize.height
-            this.parent.setSize(width, height)
-            this.sizer.setSize(width, height)
-            this.updateCamera()
-        }
-    }
-
-    updateCamera() {
-        const camera = this.cameras.main
-        const x = Math.ceil((this.parent.width - this.sizer.width) * 0.5)
-        const y = Math.ceil((this.parent.height - this.sizer.height) * 0.5)
-        const scaleX = this.sizer.width / this.game.screenSize.width
-        const scaleY = this.sizer.height / this.game.screenSize.height
-        camera.setViewport(x, y, this.sizer.width, this.sizer.height)
-        camera.setZoom(Math.max(scaleX, scaleY))
-        camera.centerOn(this.game.screenSize.width / 2, this.game.screenSize.height / 2)
-        this.handlerScene.updateCamera()
-    }
-
-    getZoom() {
-        return this.cameras.main.zoom
     }
 }
