@@ -58,6 +58,8 @@ export default class Preload extends Phaser.Scene {
             this.time.addEvent({
                 delay: this.game.debugMode ? 3000 : 4000,
                 callback: () => {
+                    const hubScene = this.scene.get('hub')
+                    hubScene.prepareFadeOutBg()
                     this.sceneStopped = true
                     this.scene.stop('preload')
                     this.handlerScene.cameras.main.setBackgroundColor(constant.color.TITLE)

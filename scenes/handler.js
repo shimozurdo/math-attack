@@ -16,6 +16,7 @@ export default class Handler extends Phaser.Scene {
     launchScene(scene, data) {
         this.scene.launch(scene, data);
         this.gameScene = this.scene.get(scene);
+        this.scene.moveUp('hub');
     }
 
     updateResize(scene) {

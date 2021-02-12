@@ -4,6 +4,7 @@ import Preload from './scenes/preload.js'
 import Hub from './scenes/hub.js'
 import Menu from './scenes/menu.js'
 import Game from './scenes/game.js'
+import Credits from './scenes/credits.js'
 
 // Aspect Ratio 16:9 - Portrait
 const MAX_SIZE_WIDTH_SCREEN = 1920
@@ -32,7 +33,7 @@ const config = {
     dom: {
         createContainer: true
     },
-    scene: [Handler, Hub, Preload, Title, Menu, Game]
+    scene: [Handler, Hub, Preload, Credits, Title, Menu, Game]
 }
 
 const game = new Phaser.Game(config)
@@ -43,6 +44,7 @@ game.embedded = true // game is embedded into a html iframe/object
 
 game.sceneTitleStarted = false
 game.showfadeOutBg = false
+game.mainAnimationWasShown = false
 
 game.screenBaseSize = {
     maxWidth: MAX_SIZE_WIDTH_SCREEN,

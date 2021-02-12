@@ -7,7 +7,7 @@ function generateMathProblem() {
 
     let results = logic.getResults(valuesProblem, this.gamePlay.dificulty)
 
-    this.mathProblemTxt.setText(valuesProblem.value1 + valuesProblem.operator.symbol + valuesProblem.value2 + '= ?')
+    this.mathProblemTxt.setText(valuesProblem.value1 + ' ' + valuesProblem.operator.symbol + ' ' + valuesProblem.value2 + ' = ?')
 
     const solutionRandomBtnIndex = Phaser.Math.Between(1, 4)
     let index = 0

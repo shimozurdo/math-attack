@@ -7,7 +7,6 @@ import { pointerOver } from '../utils/buttons.js'
 import { ruleOfThree } from '../utils/common.js'
 
 export default class Game extends Phaser.Scene {
-
     // Vars
     handlerScene = false
     sceneStopped = false
@@ -55,7 +54,7 @@ export default class Game extends Phaser.Scene {
         this.resultTxtGroup = this.add.group()
         this.resultBtnGroup = this.add.group()
         this.messageGameTxt = this.add.text(width / 2, height / 2, 'GET READY!', { fontFamily: 'Open Sans', fontSize: '50px' }).setOrigin(.5)
-        this.mathProblemTxt = this.add.text(width / 2, (height / 4) + 60, '', { fontFamily: 'Open Sans', fontSize: '50px' }).setOrigin(.5)
+        this.mathProblemTxt = this.add.text(width / 2, (height / 4) + 60, '', { fontFamily: 'Open Sans', fontSize: '60px' }).setOrigin(.5)
         this.add.text(width / 2, 30, 'Score', { fontFamily: 'Open Sans', fontSize: '25px' }).setOrigin(.5)
         this.scoreTxt = this.add.text(width / 2, 60, '0', { fontFamily: 'Open Sans', fontSize: '28px' }).setOrigin(.5)
 
