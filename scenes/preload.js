@@ -14,6 +14,7 @@ export default class Preload extends Phaser.Scene {
     preload() {
         // Images
         this.load.image('logo', 'assets/images/logo.png')
+        this.load.image('game-logo', 'assets/images/game-logo.png')
         this.load.image('guide', 'assets/images/960x540-guide.png')
         this.load.image('button', 'assets/images/button.png')
         this.load.image('button1', 'assets/images/button1.png')
@@ -29,8 +30,6 @@ export default class Preload extends Phaser.Scene {
         this.load.image('lock', 'assets/images/lock.png')
         // Sprite sheets
         this.load.spritesheet('rocket', 'assets/images/rocket.png', { frameWidth: 124, frameHeight: 200 });
-        // Fonts
-        this.load.bitmapFont('atarismooth', 'assets/fonts/atari-smooth.png', 'assets/fonts/atari-smooth.xml')
         //---------------------------------------------------------------------->
         this.canvasWidth = this.sys.game.canvas.width
         this.canvasHeight = this.sys.game.canvas.height
@@ -52,11 +51,6 @@ export default class Preload extends Phaser.Scene {
             progressBar.fillStyle(0xFF5758, 1)
             progressBar.fillRect((this.canvasWidth / 2) - (200 / 2), (this.canvasHeight / 2), 200 * value, 20)
         })
-
-        // this.load.on('fileprogress', (file) => {
-        //     if (file.key === 'logo')
-        //         this.rocket = this.add.image(this.canvasWidth / 2, (this.canvasHeight / 2) - 100, 'rocket').setOrigin(.5).setScale(.7)
-        // })
 
         this.load.on('complete', () => {
             progressBar.destroy()

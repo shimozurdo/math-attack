@@ -8,7 +8,7 @@ import Game from './scenes/game.js'
 // Aspect Ratio 16:9 - Portrait
 const MAX_SIZE_WIDTH_SCREEN = 1920
 const MAX_SIZE_HEIGHT_SCREEN = 1080
-const MIN_SIZE_WIDTH_SCREEN = 320
+const MIN_SIZE_WIDTH_SCREEN = 270
 const MIN_SIZE_HEIGHT_SCREEN = 480
 const SIZE_WIDTH_SCREEN = 540
 const SIZE_HEIGHT_SCREEN = 960
@@ -32,7 +32,7 @@ const config = {
     dom: {
         createContainer: true
     },
-    scene: [Handler, Preload, Title, Hub, Menu, Game]
+    scene: [Handler, Hub, Preload, Title, Menu, Game]
 }
 
 const game = new Phaser.Game(config)
@@ -52,6 +52,7 @@ game.screenBaseSize = {
     width: SIZE_WIDTH_SCREEN,
     height: SIZE_HEIGHT_SCREEN
 }
+
 game.orientation = "portrait"
 
 

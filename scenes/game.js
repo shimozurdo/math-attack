@@ -9,15 +9,8 @@ import { ruleOfThree } from '../utils/common.js'
 export default class Game extends Phaser.Scene {
 
     // Vars
-    width = null
-    height = null
     handlerScene = false
     sceneStopped = false
-    dificulty = null
-    resultBtnGroup = null
-    resultTxtGroup = null
-    messageGameTxt = null
-    mathProblemTxt = null
 
     constructor() {
         super({ key: 'game' })
@@ -61,10 +54,10 @@ export default class Game extends Phaser.Scene {
         this.add.image(width / 2, height / 2, "background2").setOrigin(.5)
         this.resultTxtGroup = this.add.group()
         this.resultBtnGroup = this.add.group()
-        this.messageGameTxt = this.add.bitmapText(width / 2, height / 2, 'atarismooth', 'GET READY!', 50).setOrigin(.5)
-        this.mathProblemTxt = this.add.bitmapText(width / 2, (height / 4) + 60, 'atarismooth', '', 50).setOrigin(.5)
-        this.add.bitmapText(width / 2, 30, 'atarismooth', 'Score', 25).setOrigin(.5)
-        this.scoreTxt = this.add.bitmapText(width / 2, 60, 'atarismooth', '0', 28).setOrigin(.5)
+        this.messageGameTxt = this.add.text(width / 2, height / 2, 'GET READY!', { fontFamily: 'Open Sans', fontSize: '50px' }).setOrigin(.5)
+        this.mathProblemTxt = this.add.text(width / 2, (height / 4) + 60, '', { fontFamily: 'Open Sans', fontSize: '50px' }).setOrigin(.5)
+        this.add.text(width / 2, 30, 'Score', { fontFamily: 'Open Sans', fontSize: '25px' }).setOrigin(.5)
+        this.scoreTxt = this.add.text(width / 2, 60, '0', { fontFamily: 'Open Sans', fontSize: '28px' }).setOrigin(.5)
 
         this.barWBase = 320
         this.barTs = this.add.tileSprite(width / 4, 150, this.barWBase, 56, 'bar-countdown').setOrigin(0)
@@ -92,7 +85,7 @@ export default class Game extends Phaser.Scene {
             pointerOver(resultBtn)
             this.resultBtnGroup.add(resultBtn)
 
-            let resultTxt = this.add.bitmapText(posX + posXplus + (i % 2 ? -30 : 30), posY - posYplus, 'atarismooth', '', 40).setOrigin(.5)
+            let resultTxt = this.add.text(posX + posXplus + (i % 2 ? -30 : 30), posY - posYplus, '', { fontFamily: 'Open Sans', fontSize: '40px' }).setOrigin(.5)
             resultTxt.name = 'resultTxt-' + (i + 1)
             resultTxt.setTint(stringToHex(constant.color.GAME))
             resultTxt.visible = false

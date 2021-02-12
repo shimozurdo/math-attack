@@ -5,8 +5,6 @@ import { pointerUp, pointerOver } from "../utils/buttons.js"
 export default class Menu extends Phaser.Scene {
 
     // Vars
-    width = null
-    height = null
     handlerScene = false
     sceneStopped = false
 
@@ -36,11 +34,11 @@ export default class Menu extends Phaser.Scene {
         this.add.image(width / 2, height / 2, "background2").setOrigin(.5)
         this.add.image(width / 2, height / 2, "background3").setOrigin(.5).alpha = .2
         let currentScore = parseInt(localStorage.getItem('score')) || 0
-        this.add.bitmapText(this.width / 2, 20, "atarismooth", "Max Score : " + currentScore, 18, 1).setOrigin(.5)
+        this.add.text(this.width / 2, 20, "Max Score : " + currentScore, { fontFamily: 'Open Sans', fontSize: '18px' }).setOrigin(.5)
 
         this.dificultyBtnGrp = this.add.group()
         this.dificultyTxtGrp = this.add.group()
-        this.gameTitleTxt = this.add.bitmapText(width / 2, height / 5, "atarismooth", "Choose a math\nchallenge", 30, 1).setOrigin(.5)
+        this.gameTitleTxt = this.add.text(width / 2, height / 5, "Choose a math\nchallenge", { fontFamily: 'Open Sans', fontSize: '30px' }).setOrigin(.5)
         this.countDownGameBtn = this.add.image(width / 2, height / 2, "button-square").setOrigin(.5).setInteractive({ cursor: "pointer" })
         this.countDownGame = this.add.image(width / 2, height / 2, "numbers").setOrigin(.5)
         this.countDownGame.setTint(stringToHex(constant.color.MENU))
@@ -72,7 +70,7 @@ export default class Menu extends Phaser.Scene {
                     dificultyBtn.setScale(1, .8)
                 this.dificultyBtnGrp.add(dificultyBtn)
 
-                let dificultyTxt = this.add.bitmapText(this.width / 2, posY, "atarismooth", configDificultyButtonList[i].text, 40).setOrigin(.5)
+                let dificultyTxt = this.add.text(this.width / 2, posY, configDificultyButtonList[i].text, { fontFamily: 'Open Sans', fontSize: '40px' }).setOrigin(.5)
                 dificultyTxt.setTint(stringToHex(constant.color.MENU))
                 this.dificultyTxtGrp.add(dificultyTxt)
                 posY += 150

@@ -36,8 +36,9 @@ export default class Title extends Phaser.Scene {
         // BACKGROUND
         this.bgImage = this.add.image(width / 2, height / 2, 'background').setOrigin(.5)
         this.bgImage.alpha = .5
-        this.gameTitleTxt = this.add.bitmapText(width / 2, (height / 3) - 800, 'atarismooth', 'MATH\nATTACK', 55, 1).setOrigin(.5)
-        this.playBtn = this.add.image(this.width / 2, ((this.height / 2) + 200) - 800, 'button1').setOrigin(.5).setInteractive({ cursor: 'pointer' })
+        this.gameLogoImg = this.add.image(width / 2, (height / 3) - 800, 'game-logo').setOrigin(.5)
+        this.playBtn = this.add.image(width / 2, ((height / 2) + 200) - 800, 'button1').setOrigin(.5).setInteractive({ cursor: 'pointer' })
+        this.creditsTxt = this.add.text(width / 2, ((height / 2) + 200) - 800, 'PLAY', { fontFamily: 'Open Sans', fontSize: '50px' }).setOrigin(.5)
 
         this.pointerUp(() => {
             this.flashElement(this.playBtn, () => {
@@ -69,8 +70,9 @@ export default class Title extends Phaser.Scene {
     }
 
     update(t, dt) {
-        if (this.gameTitleTxt.y < (this.width / 3)) {
-            this.gameTitleTxt.y += dt * .3
+        if (this.gameLogoImg.y < (this.height / 3) - 50) {
+            this.gameLogoImg.y += dt * .3
+            this.creditsTxt.y += dt * .3
             this.playBtn.y += dt * .3
         } else {
             this.rocket.y -= dt * .7

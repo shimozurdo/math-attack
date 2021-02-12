@@ -30,7 +30,7 @@ export default class Hub extends Phaser.Scene {
         this.pointerUp = pointerUp.bind(this)
         if (!this.game.embedded)
             fullScreen.call(this)
-        this.creditsTxt = this.add.text(this.canvasWidth / 2, this.canvasHeight - 22, 'Shimozurdo Games 2021', { fontFamily: 'Arial', fontSize: '18px', color: '#000', }).setOrigin(.5).setDepth(1)
+        this.creditsTxt = this.add.text(this.canvasWidth / 2, this.canvasHeight - 22, 'A game by Shimozurdo & Onda', { fontFamily: 'Open Sans', fontSize: '18px', color: '#000', }).setOrigin(.5).setDepth(1)
     }
 
     create() {
@@ -164,10 +164,6 @@ export default class Hub extends Phaser.Scene {
         this.soundBtn.x = this.scale.gameSize.width - 30
         this.creditsTxt.x = this.scale.gameSize.width / 2
         this.creditsTxt.y = this.scale.gameSize.height - 30
-    }
-
-    getZoom() {
-        return this.cameras.main.zoom
     }
 
 }
