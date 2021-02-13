@@ -59,8 +59,8 @@ export default class Game extends Phaser.Scene {
         this.scoreTxt = this.add.text(width / 2, 60, '0', { fontFamily: 'Open Sans', fontSize: '28px' }).setOrigin(.5)
 
         this.barWBase = 320
-        this.barTs = this.add.tileSprite(width / 4, 150, this.barWBase, 56, 'bar-countdown').setOrigin(0)
-        this.barTsFrame = this.add.image(width / 4, 150, 'bar-countdown-frame').setOrigin(0)
+        this.barTs = this.add.tileSprite((width / 4) - 25, 150, this.barWBase, 56, 'bar-countdown').setOrigin(0)
+        this.barTsFrame = this.add.image((width / 4) - 25, 150, 'bar-countdown-frame').setOrigin(0)
         this.barTs.visible = false
         this.barTsFrame.visible = false
 

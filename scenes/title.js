@@ -20,6 +20,7 @@ export default class Title extends Phaser.Scene {
         this.height = this.game.screenBaseSize.height
         this.handlerScene = this.scene.get('handler')
         this.handlerScene.sceneRunning = 'title'
+        this.gameLogoIsOnCenter = false;
         // Bindings
         this.pointerUp = pointerUp.bind(this)
         this.flashElement = flashElement.bind(this)
@@ -38,6 +39,7 @@ export default class Title extends Phaser.Scene {
         this.bgImage.alpha = .5
 
         this.gameLogoImg = this.add.image(width / 2, (height / 3) - 800, 'game-logo').setOrigin(.5)
+
         this.playBtn = this.add.image(width / 2, ((height / 2) + 180) - 800, 'button1').setOrigin(.5).setInteractive({ cursor: 'pointer' })
         this.playTxt = this.add.text(width / 2, ((height / 2) + 180) - 800, 'PLAY', { fontFamily: 'Open Sans', fontSize: '50px' }).setOrigin(.5)
 
@@ -63,7 +65,6 @@ export default class Title extends Phaser.Scene {
         }, this.creditsTxt)
 
         pointerOver(this.creditsTxt)
-
         // BACKGROUND 
 
         // GAME OBJECTS  
@@ -100,6 +101,19 @@ export default class Title extends Phaser.Scene {
                 this.rocket.y -= dt * .7
                 this.creditsTxt.visible = true
             }
+        }
+        if (this.gameLogoImg.y >= (this.height / 3) && !this.gameLogoIsOnCenter) {
+            this.gameLogoIsOnCenter = true
+            this.tweens.add({
+                targets: this.gameLogoImg,
+                props: {
+                    y: { value: "+=10", duration: 2000, ease: "Sine.easeInOut" },
+                },
+                ease: "Linear",
+                duration: 2000,
+                repeat: -1,
+                yoyo: true
+            })
         }
     }
 }
