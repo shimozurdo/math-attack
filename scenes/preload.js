@@ -69,7 +69,7 @@ export default class Preload extends Phaser.Scene {
             })
         })
 
-        //binding actions to thins scene
+        //binding actions to this scene
         this.createAnimation = createAnimation.bind(this);
     }
 

@@ -5,8 +5,6 @@ import constant from '../constant.js'
 export default class Title extends Phaser.Scene {
 
     // Vars
-    width = null
-    height = null
     handlerScene = false
     sceneStopped = false
 

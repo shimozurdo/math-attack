@@ -97,16 +97,14 @@ export default class Hub extends Phaser.Scene {
     }
 
     prepareFadeOutBg() {
-        const { fadeOutBox } = this
-        fadeOutBox.setAlpha(10)
-        fadeOutBox.canStartFade = true
-        fadeOutBox.visible = true
+        this.fadeOutBox.setAlpha(10)
+        this.fadeOutBox.canStartFade = true
+        this.fadeOutBox.visible = true
         this.game.sceneTitleStarted = true
         this.game.showfadeOutBg = true
     }
 
-    update(t, dt) {
-        const { fadeOutBox } = this
+    update(t, dt) {        
         if (this.handlerScene.sceneRunning === 'title') {
             this.soundBtn.visible = true
             this.quitBtn.visible = false
@@ -116,15 +114,15 @@ export default class Hub extends Phaser.Scene {
             this.quitBtn.visible = true
         }
 
-        if (this.game.showfadeOutBg && fadeOutBox.canStartFade) {
-            fadeOutBox.canStartFade = false
+        if (this.game.showfadeOutBg && this.fadeOutBox.canStartFade) {
+            this.fadeOutBox.canStartFade = false
             this.tweens.add({
-                targets: fadeOutBox,
+                targets: this.fadeOutBox,
                 alpha: 0,
                 duration: 800,
                 onComplete: () => {
-                    fadeOutBox.setAlpha(1)
-                    fadeOutBox.visible = false
+                    this.fadeOutBox.setAlpha(1)
+                    this.fadeOutBox.visible = false
                     this.game.showfadeOutBg = false
                 },
             });
