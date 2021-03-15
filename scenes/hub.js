@@ -97,14 +97,16 @@ export default class Hub extends Phaser.Scene {
     }
 
     prepareFadeOutBg() {
-        this.fadeOutBox.setAlpha(10)
-        this.fadeOutBox.canStartFade = true
-        this.fadeOutBox.visible = true
-        this.game.sceneTitleStarted = true
-        this.game.showfadeOutBg = true
+        setTimeout(() => {
+            this.fadeOutBox.setAlpha(10)
+            this.fadeOutBox.canStartFade = true
+            this.fadeOutBox.visible = true
+            this.game.sceneTitleStarted = true
+            this.game.showfadeOutBg = true
+        });
     }
 
-    update(t, dt) {        
+    update(t, dt) {
         if (this.handlerScene.sceneRunning === 'title') {
             this.soundBtn.visible = true
             this.quitBtn.visible = false
